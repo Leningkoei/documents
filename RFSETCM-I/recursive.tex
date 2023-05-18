@@ -1,0 +1,285 @@
+\documentclass[11pt, a4paper]{article}
+
+\usepackage{amsfonts, amssymb, amsmath}
+
+\title{Recursive Functions of Symbolic Expressions and Their Computation by
+  Machine, Part I}
+\author{John McCarthy}
+\date{April 1960}
+
+\begin{document}
+
+\maketitle
+\thispagestyle{empty}
+\pagebreak
+
+\pagenumbering{roman}
+\setcounter{page}{1}
+\tableofcontents
+\pagebreak
+\pagenumbering{arabic}
+\setcounter{page}{1}
+
+\section{Introduction}
+
+A programming system called LISP (for LISt Processor) has been developed for the
+IBM 704 computer by the Artificial Intelligence group at M.I.T. The system was
+designed to
+facilitate\footnote{facilitate: $verb$ \textbf{facilitate something} (formal) to
+  make an action or a process possible or easier.}
+experiments with a proposed system called the Advice
+Taker,
+whereby\footnote{whereby: $adv.$ (formal) by which, because of which.}
+a machine could be instructed to handle declarative as well as
+imperative\footnote{imperative: $adj.$ [not usually before noun] (formal) very
+  important and needing immediate attention or action. syn: vital}
+sentences and could
+exhibit\footnote{$exhibit^*$: $verb$ to show something in a public place for
+  people to enjoy or to give them information.}
+``common sense'' in carrying out its
+instructions. The original
+proposal\footnote{$proposal^*$: $noun$ a formal suggestion or plan; the act of
+  making a suggestion.}
+for the Advice Taker was made in November
+1958. The main requirement was a programming system for
+manipulating\footnote{manipulate: $verb$ (disapproving) to control or influence
+  somebody/something, often in a dishonest way so that they do not realize
+  it. dishonest: $adj.$ not honest; intending to trick people.}
+expressions
+representing formalized declarative and imperative sentences so that the Advice
+Taker system could make
+deductions\footnote{deduction: $noun$ the process of using information you have
+  in order to understand a particular situation or to find the answer to a
+  problem.}
+.
+
+In the course of its development the LISP system went through several stages of
+simplification\footnote{simplification: $noun$ the process of making something
+  easier to do or understand.}
+and eventually came to be based on a scheme for representing the
+partial\footnote{partial: $adj.$ not complete or whole.}
+recursive functions of a certain class of symbolic expressions. This
+representation is independent of the IBM 704 computer, or of any other
+electronic computer, and it now seems
+expedient\footnote{expedient: $noun$ an action that is useful or necessary for a
+  particular purpose, but not always fair or right. $adj.$ [not usually before
+    noun] (of an action) useful or necessary for a particular purpose, but not
+  always fair or right.}
+to
+expound\footnote{expound: $verb$ (formal) to explain something by talking about
+  it in detail.}
+the system by
+starting with the class of expressions called S-expressions and the functions
+called S-functions.
+
+In this article, we first describe a
+formalism\footnote{formalism: $noun$ a style or method in art, music,
+  literature, science, etc. that pays more attention to the rules and the
+  correct arrangement and appearance of things than to inner meaning and
+  feelings. arrangement: $noun$ a plan or preparation that you make so that
+  something can happen. appearance: $noun$ the way that somebody/something looks
+  on the outside; what somebody/something seems to be.}
+for defining functions
+recursively. We believe this formalism has advantages both as a programming
+language and as a vehicle for developing a theory of computation. Next, we
+describe S-expressions and S-functions, give some examples, and then describe
+the universal S-function $apply$ which plays the theoretical role of a universal
+Turing machine and the practical role of an interpreter. Then we describe the
+representation of S-expressions in the memory of the IBM 704 by list structures
+similar to those used by Newell, Shaw and Simon, and the representation of
+S-functions by program. Then we mention the main features of the LISP
+programming system for the IBM 704. Next comes another way of describing
+computations with symbolic expressions, and finally we give a recursive function
+interpretation of flow charts.
+
+We hope to describe some of the symbolic computations for which LISP has been
+used in another paper, and also to give
+elsewhere\footnote{$elsewhere^*$: $adv.$ in, at or to another place.}
+some applications of our
+recursive function formalism to mathematical logic and to the problem of
+mechanical theorem proving.
+
+\section{Functions and Function Definitions}
+
+We shell need a number of mathematical ideas and notations
+concerning\footnote{$concerning^*$: $prep.$ (formal) about something; involving
+  somebody or something. involve: $verb$ if a situation, an event or an activity
+  involves something, that thing is an important or necessary part or result of
+  it. syn: entail}
+functions
+in general. Most of the ideas are well known, but the notation of conditional
+expression is believed to be new, and the use of conditional expressions
+permits\footnote{$permit^*$: $verb$ (formal) to allow somebody to do something
+  or to allow something to happen.}
+functions to be defined recursively in a new and
+convenient\footnote{$convenient^*$: $adj.$ \textbf{convenient (for
+    somebody/something)} useful, easy or quick to do; not causing problems.}
+way.
+
+\paragraph{a.}$Partial \ Functions.$
+A partial function is a function that is defined only on part of its
+domain. Partial functions necessarily arise when functions are defined by
+computations because for some values of the arguments the computation defining
+the value of the function may not
+terminate\footnote{terminate: $verb$ (formal) to end; to make something end.}
+. However, some of our
+elementary\footnote{elementary: $adj.$ in or connected with the first stages of
+  a course of study.}
+functions will be defined as partial functions.
+
+\paragraph{b.}$Propositional \ Expressions \ and \ Predicates.$
+A
+propositional\footnote{proposition: $noun$ an idea or a plan of action that is
+  suggested, especially in business.}
+expression is an expression whose possible values are $T$ (for
+truth) and F (for falsity). We shall assume that the reader is familiar with the
+propositional connectives $\land$ (``and''), $\lor$ (``or''), and $\lnot$
+(``not''). Typical propositional expressions are:
+$$ x < y $$
+$$ (x < y) \land (b = c)  $$
+\begin{center}$x$ is prime\end{center}
+
+A
+predicate\footnote{predicate: $noun$ (grammar) a part of a sentence containing a
+  verb that makes a statement about the subject of verb, such as $went \ home$
+  in $John \ went \ home$.}
+is a function whose range
+consists\footnote{$consist^*$: $verb$ (not used in the progressive tenses)
+  consist in something (formal) to have something as the main or only part or
+  feature. consist of somebody/something: to be formed from the thing or people
+  mentioned.}
+of the truth values $T$ or $F$.
+
+\paragraph{c.}$Conditional \ Expressions.$
+The dependence of truth value on the values of quantities of other kinds is
+expressed in mathematics by predicates, and the dependence of truth values on
+other truth values by logical connectives. However, the notations for expressing
+symbolically the dependence of quantities of other kinds on truth values is
+inadequate, so that English words and phrases are generally used for expressing
+these dependences in texts that describe other dependences symbolically. For
+example, the function $|x|$ is usually defined in words. Conditional expressions
+are a device for expressing the dependence of quantities on propositional
+quantities. A conditional expression has the form
+$$ (p_1 \to e_1, ... p_n \to e_n)  $$
+where the $p$'s are propositional expressions and the $e$'s are expressions of
+any kind. It may be read, ``If $p_1$ then $e_1$ otherwise if $p_2$ then $e_2$,
+..., otherwise if $p_n$ then $e_n$'', or ``$p_1$
+yields\footnote{yield: $verb$ \textbf{yield something} to produce or provide
+  something, for example a profit, result or crop.}
+$e_1$, ..., $p_n$ yields
+$e_n$''.
+
+We now give the rules for
+determining\footnote{$determine^*$: $verb$ (formal) to discover the facts about
+  something; to calculate something exactly.}
+whether the value of
+$$ (p_1 \to e_1, ..., p_n \to e_n) $$
+is defined, and if so what its value is. Examine the $p$'s from left to
+right. If a $p$ whose value is $T$ is
+encountered\footnote{$encounter^*$: $verb$ \textbf{encounter something} to
+  experience something, especially something unpleasant or difficult, while you
+  are trying to do something else.}
+before any $p$ whose value is
+undefined is encountered then the value of the conditional expression is the
+value of the
+corresponding\footnote{corresponding: $adj.$ matching or connected with
+  something that you have just mentioned. syn: equivalent}
+$e$ (if this is defined). If any undefined $p$ is
+encountered before a true $p$, or if all $p$'s are false, or if the $e$
+corresponding to the first true $p$ is undefined, then the value of the
+conditional expression is undefined. We now give examples.
+$$ (1 < 2 \to 4, 1 > 2 \to 3) = 4 $$
+$$ (2 < 1 \to 4, 2 > 1 \to 3, 2 > 1 \to 2) = 3 $$
+$$ (2 < 1 \to 4, T \to 3) = 3 $$
+$$ (2 < 1 \to \frac{0}{0}, T \to 3) = 3 $$
+\begin{center}$ (2 < 1 \to 3, T \to \displaystyle\frac{0}{0}) $
+  is undefined\end{center}
+\begin{center}$ (2 < 1 \to 3, 4 < 1 \to 4) $ is
+  undefined\end{center}
+
+
+Some of the simplest applications of conditional expressions are in giving such
+definitions as
+$$ |x| = (x < 0 \to -x, T \to x) $$
+$$ \delta_{ij} = (i = j \to 1, T \to 0) $$
+$$ sgn(x) = (x < 0 \to -1, x = 0 \to 0, T \to 1) $$
+
+\paragraph{c.}$Recursive \ Function \ Definitions.$
+By using conditional expressions we can, without circularity, define functions
+by formulas in which the defined function occurs. For example, we write
+$$ n! = (n = 0 \to 1, T \to n \cdot (n - 1)!) $$
+When we use this formula to evaluate $0!$ we get the answer 1; because of the
+way in which the value of a conditional expression was defined, the meaningless
+expression $0 \cdot (0 - 1)!$ does not arise. The evaluation of $2!$ according
+to this definition
+proceeds\footnote{$proceed^*$: $verb$ \textbf{proceed (with something)} to
+  continue doing something that has already been started; to continue being
+  done.}
+as follows:
+\begin{align*}
+  2! &= (2 = 0 \to 1, T \to 2 \cdot (2 - 1)!) \\
+     &= 2 \cdot 1!                                            \\
+     &= 2 \cdot (1 = 0 \to 1, T \to 1 \cdot (1 - 1)!) \\
+     &= 2 \cdot 1 \cdot 0!                                    \\
+     &= 2 \cdot 1 \cdot (0 = 0 \to 1, T \to 0 \cdot (0 - 1)!) \\
+     &= 2 \cdot 1 \cdot 1                                     \\
+     &= 2
+\end{align*}
+
+We now give two other applications of recursive function definitions. The
+greatest common divisor, $gcd(m, n)$, of two positive integers $m$ and $n$ is
+computed by means of the Euclidean algorithm. This algorithm is expressed by the
+recursive function definition:
+\begin{align*}
+  gcd(m, n) = (m > n &\to gcd(n, m), \\
+       rem(n, m) = 0 &\to m,         \\
+                   T &\to gcd(rem(n, m), m))
+\end{align*}
+where $rem(n, m)$
+denotes\footnote{denote}
+the remainder left when $n$ is divided by $m$.
+
+The Newtonian algorithm for
+obtaining\footnote{obtaining}
+an
+approximate\footnote{approximate}
+square root of a number of
+$a$, starting with an initial approximation $x$ and requiring that an acceptable
+approximation $y$ satisfy $|y^2 - a| < \epsilon$, may be written as
+\begin{align*}
+  sqrt(a, x, \epsilon) =
+  (|x^2 - a| < \epsilon &\to x, \\
+                      T &\to sqrt(a, \frac{1}{2}(x + \frac{a}{x}), \epsilon))
+\end{align*}
+
+The simultaneous recursive definition of several functions is also possible, and
+we shell use such definitions if they are required.
+
+There is no
+guarantee\footnote{guarantee}
+that the computation determined by a recursive definition
+will ever terminate and, for example, an attempt to compute $n!$ from our
+definition will only succeed if $n$ is a non-negative integer. If the
+computation does not terminate, the function must be regarded as undefined for
+given arguments.
+
+The propositional connectives themselves can be defined by conditional
+expressions. We write
+\begin{align*}
+    p \land q &= (p \to q, T \to F) \\
+     p \lor q &= (p \to T, T \to q) \\
+      \lnot p &= (p \to F, T \to T) \\
+  p \supset q &= (p \to q, T \to T)
+\end{align*}
+
+It is readily seen that the right-hand sides of the equations have the correct
+truth tables. If we consider situations in which $p$ or $q$ may be undefined,
+the connectives $\land$ and $\lor$ are seen to be non-commutative. For example
+if $p$ is false and $q$ is undefined, we see that according to the definitions
+given above $p \land q$ is false, but $q \land p$ is undefined. For our
+applications this non-commutativity is desirable, since $p \land q$ is computed
+by first computing $p$, and if $p$ is false $q$ is not computed. If the
+computation for $p$ does not terminate, we never get around to computing $q$. We
+shell use propositional connectives in this sense hereafter.
+
+\end{document}
