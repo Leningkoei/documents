@@ -13,7 +13,7 @@
 
 \usepackage{hyperref} % Solve the conflict between "tikz" and "tableofcontent"
 
-% declares
+% declare
 
 %% flowchart
 
@@ -35,16 +35,15 @@ centered, draw = black, fill = green!30]
 
 \begin{document}
 
+\pagenumbering{alph}
 \maketitle
 \thispagestyle{empty}
 \pagebreak
 
 \pagenumbering{roman}
-\setcounter{page}{1}
 \tableofcontents
 \pagebreak
 \pagenumbering{arabic}
-\setcounter{page}{1}
 
 \pagestyle{fancy}
 \fancyhead[L]{ \LaTeX\ }
