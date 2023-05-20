@@ -1,6 +1,9 @@
 \documentclass[11pt, a4paper]{article}
 
+\usepackage{type1cm}
 \usepackage{amsfonts, amssymb, amsmath}
+
+\usepackage{hyperref}
 
 \title{Recursive Functions of Symbolic Expressions and Their Computation by
   Machine, Part I}
@@ -9,16 +12,15 @@
 
 \begin{document}
 
+\pagenumbering{alph}
 \maketitle
 \thispagestyle{empty}
 \pagebreak
 
 \pagenumbering{roman}
-\setcounter{page}{1}
 \tableofcontents
 \pagebreak
 \pagenumbering{arabic}
-\setcounter{page}{1}
 
 \section{Introduction}
 
@@ -44,7 +46,7 @@ for the Advice Taker was made in November
 1958. The main requirement was a programming system for
 manipulating\footnote{manipulate: $verb$ (disapproving) to control or influence
   somebody/something, often in a dishonest way so that they do not realize
-  it. dishonest: $adj.$ not honest; intending to trick people.}
+  it. --- dishonest: $adj.$ not honest; intending to trick people.}
 expressions
 representing formalized declarative and imperative sentences so that the Advice
 Taker system could make
@@ -76,9 +78,9 @@ In this article, we first describe a
 formalism\footnote{formalism: $noun$ a style or method in art, music,
   literature, science, etc. that pays more attention to the rules and the
   correct arrangement and appearance of things than to inner meaning and
-  feelings. arrangement: $noun$ a plan or preparation that you make so that
-  something can happen. appearance: $noun$ the way that somebody/something looks
-  on the outside; what somebody/something seems to be.}
+  feelings. --- arrangement: $noun$ a plan or preparation that you make so that
+  something can happen. --- appearance: $noun$ the way that somebody/something
+  looks on the outside; what somebody/something seems to be.}
 for defining functions
 recursively. We believe this formalism has advantages both as a programming
 language and as a vehicle for developing a theory of computation. Next, we
@@ -236,13 +238,19 @@ recursive function definition:
                    T &\to gcd(rem(n, m), m))
 \end{align*}
 where $rem(n, m)$
-denotes\footnote{denote}
+denotes\footnote{denote: $verb$ (formal) 1. \textbf{denote something
+    \text{\textbar} denote that...} to be sign of something. syn: indicate;
+  2. \textbf{denote something \text{\textbar} denote what, when, etc...} to mean
+  something. syn: represent}
 the remainder left when $n$ is divided by $m$.
 
 The Newtonian algorithm for
-obtaining\footnote{obtaining}
+obtaining\footnote{$obtain^*$: $verb$ (formal) \textbf{obtain something} to get
+  something, especially by making an effort. --- effort: $noun$ the physical or
+  mental energy that you need to do something that take a lot of energy.}
 an
-approximate\footnote{approximate}
+approximate\footnote{$approximate^*$: $adj.$ almost correct or accurate, but not
+  completely so. opp: exact.}
 square root of a number of
 $a$, starting with an initial approximation $x$ and requiring that an acceptable
 approximation $y$ satisfy $|y^2 - a| < \epsilon$, may be written as
@@ -252,15 +260,25 @@ approximation $y$ satisfy $|y^2 - a| < \epsilon$, may be written as
                       T &\to sqrt(a, \frac{1}{2}(x + \frac{a}{x}), \epsilon))
 \end{align*}
 
-The simultaneous recursive definition of several functions is also possible, and
+The
+simultaneous\footnote{simultaneous: $adj.$ happening or done at the same time as
+  something else.}
+recursive definition of several functions is also possible, and
 we shell use such definitions if they are required.
 
 There is no
-guarantee\footnote{guarantee}
+guarantee\footnote{$guarantee^*$: $noun$ a firm promise that you will do
+  something or that something will happen. syn: assurance --- firm: $adj.$ fairly
+  hard; not easy to press into a different shape.}
 that the computation determined by a recursive definition
 will ever terminate and, for example, an attempt to compute $n!$ from our
 definition will only succeed if $n$ is a non-negative integer. If the
-computation does not terminate, the function must be regarded as undefined for
+computation does not terminate, the function must be
+regarded\footnote{$regard^*$: $verb$ 1. to think about somebody/something in
+  particular way. 2. \textbf{regard somebody/something (+ adv./prep.)} (formal)
+  to look at somebody/something, especially in a particular way. syn:
+  contemplate}
+as undefined for
 given arguments.
 
 The propositional connectives themselves can be defined by conditional

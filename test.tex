@@ -1,11 +1,17 @@
+% use "pdflatex" engine
+
 \documentclass[11pt, a4paper]{article}
 
-\usepackage{amsfonts, amssymb, amsmath}
-\usepackage{fancyhdr}
+\usepackage{type1cm} % allow all font size???
+\usepackage{amsfonts, amssymb, amsmath} % for "align*"
+\usepackage{fancyhdr} \setlength{\headheight}{13.69999pt}
 \usepackage{enumerate}
 
+% Require "texlive-latex-extra" package in your device. Use apt.
 \usepackage{tikz}
 \usetikzlibrary{shapes.geometric, arrows}
+
+\usepackage{hyperref} % Solve the conflict between "tikz" and "tableofcontent"
 
 % declares
 
@@ -24,17 +30,17 @@ centered, draw = black, fill = green!30]
 
 \title{ \LaTeX\ }
 \author{author}
-%\date{January 1, 1970}
+% \date{January 1, 1970}
 \date{\today}
 
 \begin{document}
 
-\thispagestyle{empty}
 \maketitle
+\thispagestyle{empty}
 \pagebreak
+
 \pagenumbering{roman}
 \setcounter{page}{1}
-
 \tableofcontents
 \pagebreak
 \pagenumbering{arabic}
@@ -44,13 +50,11 @@ centered, draw = black, fill = green!30]
 \fancyhead[L]{ \LaTeX\ }
 \fancyhead[R]{\nouppercase{\leftmark}}
 
-\section{Creating a \LaTeX\ Document}
-Hello! This is my first \LaTeX\ document.
+ection{Creating a \LaTeX\ Document}
+llo! This is my first \LaTeX\ document.
 
-A rectangle has side lengths of $(x + 1)$ and $(x + 3)$.
-The equation $${A(x) = x^2 + 4x + 3}$$ gives the area of the rectangle.
-
-\pagebreak
+rectangle has side lengths of $(x + 1)$ and $(x + 3)$.
+e equation $${A(x) = x^2 + 4x + 3}$$ gives the area of the rectangle.
 
 \section{Common Mathematical Notation}
 
@@ -90,8 +94,6 @@ $$ \frac{2}{3} $$
 About $\displaystyle \frac{2}{3}$ of the glass is full.\\
 About $\frac{2}{3}$ of the glass is full.
 
-\pagebreak
-
 \section{Brackets, Tables, and Arrays}
 
 \subsection{Brackets}
@@ -129,8 +131,6 @@ $$ \left. \frac{dy}{dx} \right|_{x = 1} $$
   5x^2 - x - 12 &= 0
 \end{align}
 
-\pagebreak
-
 \section{Creating Lists}
 
 \subsection{Enumerate}
@@ -162,8 +162,6 @@ $$ \left. \frac{dy}{dx} \right|_{x = 1} $$
   \end{itemize}
 \item highlighter
 \end{itemize}
-
-\pagebreak
 
 \section{Text Document Formatting}
 
@@ -197,8 +195,6 @@ This will produce \texttt{typewriter font} text.
 \begin{flushright}
   flushright
 \end{flushright}
-
-\pagebreak
 
 \section {Flowchart}
 
