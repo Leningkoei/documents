@@ -250,7 +250,7 @@ obtaining\footnote{$obtain^*$: $verb$ (formal) \textbf{obtain something} to get
   mental energy that you need to do something that take a lot of energy.}
 an
 approximate\footnote{$approximate^*$: $adj.$ almost correct or accurate, but not
-  completely so. $opp$ exact --- accurate: TODO.}
+  completely so. $opp$ exact --- accurate: $adj.$ correct and true in every detail.}
 square root of a number of
 $a$, starting with an initial approximation $x$ and requiring that an acceptable
 approximation $y$ satisfy $|y^2 - a| < \epsilon$, may be written as
@@ -353,14 +353,65 @@ expressions. For example, $\lambda((x, y), y^2 + x)$ is a function of two
 variables, and $\lambda((x, y), y^2 + x)(3, 4) = 19$.
 
 The variables occurring in the list of variables of a $\lambda$-expression are
-dummy\footnote{dummy}
+dummy\footnote{dummy: $adj.$ (only before noun) made to look real, although it
+  is actually a copy which does not work.}
 or bound, like variables of
-integration\footnote{integration}
-in a definite integral. That is,
+integration\footnote{integration: $noun$ the act or process of combining two or
+  more things so that they work together (= of integrating them).}
+in a definite
+integral\footnote{integral: $adj.$ being an essential part of something.}
+. That is,
 we may change the names of the bound variables in a function expression without
 changing the value of the expression, provided that we make the same change for
 each occurrence of the variable and do not make two variables the same that
 previously were different. Thus $\lambda((x, y), y^2 + x)$, $\lambda((u, v), v^2
 + u)$ and $\lambda((y, x), x^2 + y)$ denote the same function.
+
+We shall frequently use expressions in which some of the variables are bound
+by $\lambda$'s and others are not. Such an expression may be regarded as
+defining a function with parameters. The unbound variables are called free
+variables.
+
+An
+adequate\footnote{adequate: $adj.$ enough in quantity, or good enough in
+  quality, for a particular purpose or need.}
+notation that distinguishes functions from forms allows an
+unambiguous\footnote{unambiguous: $adj.$ clear in meaning; that can only be
+  understood in one way.}
+treatment of functions of functions. It would involve too much of
+digression\footnote{digress: $verb$ (formal) to start to talk about something
+  that is not connected with the main point of what you are saying.}
+to give examples here, but we shall use functions with functions as
+arguments later in this report.
+
+Difficulties arise in combining functions described by $\lambda$-expressions, or
+by any other notation involving variables, because different bound variables may
+be represented by the same symbol. This is called
+collision\footnote{collision: $verb$ \textbf{collision (with somebody/something)
+    | collision (between/of A and B)} an accident in which two vehicles or
+  people crash into each other.}
+of bound
+variables. There is a notation involving operators that are called combinators
+for combining functions without the use of variables. Unfortunately, the
+combinatory expressions for interesting combinations of functions tend to be
+lengthy and unreadable.
+
+\paragraph{f.}\textit{Expressions for Recursive Functions.}
+The $\lambda$-notation is inadequate for naming functions defined
+recursively. For example, using $\lambda$'s, we can convert the definition
+$$ sqrt(a, x, \epsilon) =
+(|x^2 - a| < \epsilon \to x,
+T \to sqrt(a, \frac{1}{2}(x + \frac{a}{x}), \epsilon)) $$
+into
+$$ sqrt = \lambda((a, x, \epsilon),
+|x^2 - a| < \epsilon \to x,
+T \to sqrt(a, \frac{1}{2}(x + \frac{a}{x}), \epsilon)) $$
+,
+but the right-hand side cannot serve as an expression for the function because
+there would be nothing to
+indicate\footnote{$indicate^*$: $verb$ to show that something is true or
+  exists.}
+that the reference to $sqrt$ within the
+expression stood for the expression as a whole.
 
 \end{document}
