@@ -27,7 +27,7 @@
 A programming system called LISP (for LISt Processor) has been developed for the
 IBM 704 computer by the Artificial Intelligence group at M.I.T. The system was
 designed to
-facilitate\footnote{facilitate: $verb$ \textbf{facilitate something} (formal) to
+facilitate\footnote{facilitate: $verb$ \textit{facilitate something} (formal) to
   make an action or a process possible or easier.}
 experiments with a proposed system called the Advice
 Taker,
@@ -36,11 +36,11 @@ a machine could be instructed to handle declarative as well as
 imperative\footnote{imperative: $adj.$ [not usually before noun] (formal) very
   important and needing immediate attention or action. $syn$ vital}
 sentences and could
-exhibit\footnote{$exhibit^*$: $verb$ to show something in a public place for
+exhibit\footnote{exhibit$^*$: $verb$ to show something in a public place for
   people to enjoy or to give them information.}
 ``common sense'' in carrying out its
 instructions. The original
-proposal\footnote{$proposal^*$: $noun$ a formal suggestion or plan; the act of
+proposal\footnote{proposal$^*$: $noun$ a formal suggestion or plan; the act of
   making a suggestion.}
 for the Advice Taker was made in November
 1958. The main requirement was a programming system for
@@ -96,7 +96,7 @@ interpretation of flow charts.
 
 We hope to describe some of the symbolic computations for which LISP has been
 used in another paper, and also to give
-elsewhere\footnote{$elsewhere^*$: $adv.$ in, at or to another place.}
+elsewhere\footnote{elsewhere$^*$: $adv.$ in, at or to another place.}
 some applications of our
 recursive function formalism to mathematical logic and to the problem of
 mechanical theorem proving.
@@ -104,17 +104,17 @@ mechanical theorem proving.
 \section{Functions and Function Definitions}
 
 We shell need a number of mathematical ideas and notations
-concerning\footnote{$concerning^*$: $prep.$ (formal) about something; involving
+concerning\footnote{concerning$^*$: $prep.$ (formal) about something; involving
   somebody or something. involve: $verb$ if a situation, an event or an activity
   involves something, that thing is an important or necessary part or result of
   it. $syn$ entail}
 functions
 in general. Most of the ideas are well known, but the notation of conditional
 expression is believed to be new, and the use of conditional expressions
-permits\footnote{$permit^*$: $verb$ (formal) to allow somebody to do something
+permits\footnote{permit$^*$: $verb$ (formal) to allow somebody to do something
   or to allow something to happen.}
 functions to be defined recursively in a new and
-convenient\footnote{$convenient^*$: $adj.$ \textbf{convenient (for
+convenient\footnote{convenient$^*$: $adj.$ \textit{convenient (for
     somebody/something)} useful, easy or quick to do; not causing problems.}
 way.
 
@@ -146,13 +146,14 @@ predicate\footnote{predicate: $noun$ (grammar) a part of a sentence containing a
   verb that makes a statement about the subject of verb, such as $went \ home$
   in $John \ went \ home$.}
 is a function whose range
-consists\footnote{$consist^*$: $verb$ (not used in the progressive tenses)
-  consist in something (formal) to have something as the main or only part or
-  feature. consist of somebody/something: to be formed from the thing or people
-  mentioned.}
+consists\footnote{consist$^*$: $verb$ (not used in the progressive tenses)
+  \textit{consist in something} (formal) to have something as the main or only
+  part or feature. \textit{consist of somebody/something} to be formed from the
+  thing or people mentioned.}
 of the truth values $T$ or $F$.
 
 \paragraph{c.}\textit{Conditional Expressions.}
+
 The dependence of truth value on the values of quantities of other kinds is
 expressed in mathematics by predicates, and the dependence of truth values on
 other truth values by logical connectives. However, the notations for expressing
@@ -166,19 +167,19 @@ $$ (p_1 \to e_1, \ldots p_n \to e_n)  $$
 where the $p$'s are propositional expressions and the $e$'s are expressions of
 any kind. It may be read, ``If $p_1$ then $e_1$ otherwise if $p_2$ then $e_2$,
 $\ldots$, otherwise if $p_n$ then $e_n$'', or ``$p_1$
-yields\footnote{yield: $verb$ \textbf{yield something} to produce or provide
+yields\footnote{yield: $verb$ \textit{yield something} to produce or provide
   something, for example a profit, result or crop.}
 $e_1$, $\ldots$,
 $p_n$ yields $e_n$''.
 
 We now give the rules for
-determining\footnote{$determine^*$: $verb$ (formal) to discover the facts about
+determining\footnote{determine$^*$: $verb$ (formal) to discover the facts about
   something; to calculate something exactly.}
 whether the value of
 $$ (p_1 \to e_1, \ldots, p_n \to e_n) $$
 is defined, and if so what its value is. Examine the $p$'s from left to
 right. If a $p$ whose value is $T$ is
-encountered\footnote{$encounter^*$: $verb$ \textbf{encounter something} to
+encountered\footnote{encounter$^*$: $verb$ \textit{encounter something} to
   experience something, especially something unpleasant or difficult, while you
   are trying to do something else.}
 before any $p$ whose value is
@@ -214,7 +215,7 @@ When we use this formula to evaluate $0!$ we get the answer 1; because of the
 way in which the value of a conditional expression was defined, the meaningless
 expression $0 \cdot (0 - 1)!$ does not arise. The evaluation of $2!$ according
 to this definition
-proceeds\footnote{$proceed^*$: $verb$ \textbf{proceed (with something)} to
+proceeds\footnote{proceed$^*$: $verb$ \textit{proceed (with something)} to
   continue doing something that has already been started; to continue being
   done.}
 as follows:
@@ -238,18 +239,18 @@ recursive function definition:
                    T &\to gcd(rem(n, m), m))
 \end{align*}
 where $rem(n, m)$
-denotes\footnote{denote: $verb$ (formal) 1. \textbf{denote something
+denotes\footnote{denote: $verb$ (formal) 1. \textit{denote something
     \text{\textbar} denote that...} to be sign of something. $syn$ indicate;
-  2. \textbf{denote something \text{\textbar} denote what, when, etc...} to mean
+  2. \textit{denote something \text{\textbar} denote what, when, etc...} to mean
   something. $syn$ represent}
 the remainder left when $n$ is divided by $m$.
 
 The Newtonian algorithm for
-obtaining\footnote{$obtain^*$: $verb$ (formal) \textbf{obtain something} to get
+obtaining\footnote{obtain$^*$: $verb$ (formal) \textit{obtain something} to get
   something, especially by making an effort. --- effort: $noun$ the physical or
   mental energy that you need to do something that take a lot of energy.}
 an
-approximate\footnote{$approximate^*$: $adj.$ almost correct or accurate, but not
+approximate\footnote{approximate$^*$: $adj.$ almost correct or accurate, but not
   completely so. $opp$ exact --- accurate: $adj.$ correct and true in every detail.}
 square root of a number of
 $a$, starting with an initial approximation $x$ and requiring that an acceptable
@@ -267,15 +268,15 @@ recursive definition of several functions is also possible, and
 we shell use such definitions if they are required.
 
 There is no
-guarantee\footnote{$guarantee^*$: $noun$ a firm promise that you will do
+guarantee\footnote{guarantee$^*$: $noun$ a firm promise that you will do
   something or that something will happen. $syn$ assurance --- firm: $adj.$ fairly
   hard; not easy to press into a different shape.}
 that the computation determined by a recursive definition
 will ever terminate and, for example, an attempt to compute $n!$ from our
 definition will only succeed if $n$ is a non-negative integer. If the
 computation does not terminate, the function must be
-regarded\footnote{$regard^*$: $verb$ 1. to think about somebody/something in
-  particular way. 2. \textbf{regard somebody/something (+ adv./prep.)} (formal)
+regarded\footnote{regard$^*$: $verb$ 1. to think about somebody/something in
+  particular way. 2. \textit{regard somebody/something (+ adv./prep.)} (formal)
   to look at somebody/something, especially in a particular way. $syn$
   contemplate}
 as undefined for
@@ -307,7 +308,7 @@ imprecisely\footnote{imprecise: $adj.$ giving exact details or making something
   clear. $syn$ inaccurate $\leftrightarrow$ $opp$ precise}
 and to apply it to forms such as $y^2 + x$. Because we
 shall later compute with expressions for functions, we need a
-distinction\footnote{distinction: $noun$ \textbf{distinction (between A and B)}
+distinction\footnote{distinction: $noun$ \textit{distinction (between A and B)}
   a clear difference or contract especially between people or things that are
   similar or related. --- contrast: $noun$ a difference between two or more
   people or things that you can see clearly when they are compared or put close
@@ -315,7 +316,7 @@ distinction\footnote{distinction: $noun$ \textbf{distinction (between A and B)}
   differences between them.}
 between functions and forms and a notation for expressing this distinction. This
 distinction and a notation for describing it, from which we
-deviate\footnote{deviate: $verb$ \textbf{deviate (from something)} to be
+deviate\footnote{deviate: $verb$ \textit{deviate (from something)} to be
   different from something; to do something in a different way from  what is
   usual or excepted.}
 trivially\footnote{trivial: $adj.$ not important or serious; not worth
@@ -327,7 +328,7 @@ Let $f$ be an expression that stands for a function of two integer variables. It
 should make sense to write $f(3, 4)$ and the value of this expression should be
 determined. The expression $y^2 + x$ does not meet this requirement; $y^2 + x(3,
 4)$ is not a
-conventional\footnote{$conventional^*$: $adj.$ (often disapproving) tending to
+conventional\footnote{conventional$^*$: $adj.$ (often disapproving) tending to
   follow what is done or considered acceptable by society in general; normal and
   ordinary, and perhaps not very interesting.}
 notation, and if we attempted to define it we would be
@@ -343,7 +344,7 @@ Church's $\lambda$-notation.
 If $\mathcal{E}$ is a form in variables $x_1, \ldots, x_n$, then $\lambda((x_1,
 \ldots, x_n), \mathcal{E})$ will be taken to be the function of $n$ variables
 whose value is determined by
-substituting\footnote{$substitute^*$: $verb$ a person or thing that you use or
+substituting\footnote{substitute$^*$: $verb$ a person or thing that you use or
   have instead of the one you normally use or have. $verb$ to take the place of
   somebody/something else; to use somebody/something instead of
   somebody/something else.}
@@ -387,7 +388,7 @@ arguments later in this report.
 Difficulties arise in combining functions described by $\lambda$-expressions, or
 by any other notation involving variables, because different bound variables may
 be represented by the same symbol. This is called
-collision\footnote{collision: $verb$ \textbf{collision (with somebody/something)
+collision\footnote{collision: $verb$ \textit{collision (with somebody/something)
     | collision (between/of A and B)} an accident in which two vehicles or
   people crash into each other.}
 of bound
@@ -409,9 +410,117 @@ T \to sqrt(a, \frac{1}{2}(x + \frac{a}{x}), \epsilon)) $$
 ,
 but the right-hand side cannot serve as an expression for the function because
 there would be nothing to
-indicate\footnote{$indicate^*$: $verb$ to show that something is true or
+indicate\footnote{indicate$^*$: $verb$ to show that something is true or
   exists.}
 that the reference to $sqrt$ within the
 expression stood for the expression as a whole.
+
+In order to write expressions for recursive functions, we introduce another
+notation. $label(a, \mathcal{E})$ denotes the expression $\mathcal{E}$, provided
+that occurrences of $a$ within $\mathcal{E}$ are to be interpreted as referring
+to the expression as a whole. Thus we can write
+$$ label(sqrt, \lambda((a, x, \epsilon),
+                       (|x^2 - a| < \epsilon \to x,
+                       T \to sqrt(a, \frac{1}{2}(x + \frac{a}{x}), \epsilon))))
+$$
+as a name for our sqrt function.
+
+The symbol $a$ in label $(a, \mathcal{E})$ is also bound, that is, it may be
+altered systematically without changing the meaning of the expression. It
+behaves differently from a variable bound by a $\lambda$, however.
+
+\section{Recursive Functions of Symbolic Expressions}
+
+We shall first define a class of symbolic expressions in terms of ordered pairs
+and lists. Then we shall define five elementary functions and predicates, and
+build from them by
+composition\footnote{composition: $noun$ the different parts which something is
+  made of; the way in which the different parts are organized.}
+, conditional expressions, and recursive
+definitions an
+extensive\footnote{extensive$^*$: covering a large area; great in amount.}
+class of functions of which we shall give a number of
+examples. We shall then show how these functions themselves can be expressed as
+symbolic expressions, and we shall define a universal function $apply$ that
+allows us to compute from the expression for a given function its value for
+given arguments. Finally, we shall define some functions with functions as
+arguments and give some useful examples.
+
+\paragraph{a.}\textit{A Class of Symbolic Expressions.}
+We shall now define the S-expressions (S stands for symbolic). They are formed
+by using the special characters
+$$ \cdot $$
+$$ ) $$
+$$ ( $$
+and an infinite set of distinguishable atomic symbols. For atomic symbols, we
+shall use strings of capital Latin letters and digits with single
+imbedded\footnote{embed: verb. [usually passive] \textit{embed something (in
+    something)} to fix something firmly into a substance or solid
+  object. \textit{The bullet embedded itself in the wall.}}
+blanks. Examples of atomic symbols are
+\begin{align*}
+&A   \\
+&ABA \\
+&APPLE \ PIE \ NUMBER \ 3
+\end{align*}
+
+There is a
+twofold\footnote{twofold: $adj.$ (formal) consisting of two parts.}
+reason for departing from the usual mathematical practice of
+using single letters for atomic symbols. First, computer programs frequently
+require hundreds of distinguishable symbols that must be formed from the 47
+characters that are printable by the IBM 704 computer. Second, it is convenient
+to allow English words and phrases to stand for atomic entities for
+mnemonic\footnote{mnemonic: $noun$ a word, sentence, poem, etc. that helps you
+  remember something.}
+reason. The symbols are atomic in the sense that any substructure they may have
+as sequences of characters is ignored. We
+assume\footnote{assume$^*$: $verb$ to think or accept that something is true but
+  without having proof of it.}
+only that different symbols can
+be distinguished. S-expressions are then defined as follows:
+\begin{enumerate}
+\item Atomic symbols are S-expressions.
+\item If $e_1$ and $e_2$ are S-expressions, so is $(e_1 \cdot e_2)$.
+\end{enumerate}
+Examples of S-expressions are
+\begin{align*}
+&AB          \\
+&(A \cdot B) \\
+&((AB \cdot C) \cdot D)
+\end{align*}
+An S-expression is then simply an ordered pair, the terms of which may be atomic
+symbols or simpler S-expressions. We can represent a list of arbitrary length in
+terms of S-expressions as follows. The list
+$$ (m_1, m_2, \ldots, m_n) $$
+is represented by the S-expression
+$$ (m_1 \cdot (m_2 \cdot ( \cdots (m_n \cdot NIL) \cdots ))) $$
+Here $NIL$ is an atomic symbol used to terminate lists. Since many of the
+symbolic expressions with which we deal are conveniently expressed as lists, we
+shall introduce a list notation to
+abbreviate\footnote{abbreviate: $verb$ [usually passive] \textit{abbreviate
+    something (to something)} to make a word, phrase or name shorter by leaving
+  out letters or using only the first letter of each word. $syn$ shorten}
+certain S-expressions. We have
+\begin{enumerate}
+\item $(m)$ stands for $(m \cdot NIL)$.
+\item $(m_1, \ldots, m_n)$ stands for
+  $(m_1 \cdot ( \cdots (m_n \cdot NIL) \cdots ))$.
+\item $(m_1, \ldots, m_n \cdot x)$ stands for
+  $(m_1 \cdot ( \cdots (m_n \cdots x) \cdots ))$.
+\end{enumerate}
+
+Subexpressions can be similarly abbreviated. Some examples of these
+abbreviations are
+\begin{center}
+  $((AB, C), D)$ for $((AB \cdot (C \cdot NIL)) \cdot (D \cdot NIL))$
+\end{center}
+\begin{center}
+  $((A, B), C, D \cdot E)$ for
+  $((A \cdot (B \cdot NIL)) \cdot (C \cdot (D \cdot E)))$
+\end{center}
+
+Since we regard the expressions with commas as abbreviations for those not
+involving commas, we shall refer to them all as S-expressions.
 
 \end{document}
