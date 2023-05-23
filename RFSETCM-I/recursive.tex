@@ -523,4 +523,65 @@ abbreviations are
 Since we regard the expressions with commas as abbreviations for those not
 involving commas, we shall refer to them all as S-expressions.
 
+\paragraph{b.}\textit{Functions of S-expressions and the Expressions That
+  Represent Them}
+We now define a class of functions of S-expressions. The expressions
+representing these functions are written in a conventional functional
+notation. However, in order to clearly distinguish the expressions representing
+functions from S-expressions, we shall use sequences of lower-case letters for
+function names and variables ranging over the set of S-expressions. We also use
+brackets and semicolons, instead of
+parentheses\footnote{parenthesis: $noun$ 1. a word, sentence, etc. that is added
+  to a speech or piece of writing, especially in order to give extra
+  information. In writing, it is separated from the rest of the text using
+  brackets, commas or DASHES. 2. (format or NAmE) [usually pl.] either of a pair
+  of marks, () placed around extra information in a piece of writing or part of
+  a problem in mathematics.}
+and commas, for denoting the
+application of functions to their arguments. Thus we write
+$$ car[x] $$
+$$ car[cons[(A \cdot B); x]] $$
+In these M-expressions (meta-expressions) any S-expression that occur stand for
+themselves.
+
+\paragraph{c.}\textit{The Elementary S-functions and Predicates.}
+We introduce the following functions and predicates:
+\begin{enumerate}
+\item $atom$. $atom[x]$ has the value of T or F according to whether $x$ is an
+  atomic symbol. Thus
+  $$ atom[X] = T $$
+  $$ atom[(X \cdot A)] = F $$
+\item $eq$. $eq[x; y]$ is defined if and only if both $x$ and $y$ are
+  atomic. $eq[x; y] = T$ if $x$ and $y$ are the same symbol, and $eq[x; y] = F$
+  otherwise. Thus
+  $$ eq[X; X] = T $$
+  $$ eq[X; A] = F $$
+  \begin{center}$eq[X; (X \cdot A)]$ is undefined\end{center}
+\item $car$. $car[x]$ is defined if and only if $x$ is not atomic. $car[(e_1
+  \cdot e_2)] = e_1$. Thus $car[X]$ is undefined.
+\item $cdr$. $cdr[x]$ is also defined when $x$ is not atomic. We have $cdr[(e_1
+  \cdot e_2)] = e_2$. Thus $cdr[X]$ is undefined.
+  $$ cdr[(X \cdot A)] = A \ cdr[((X \cdot A) \cdot Y)] = Y $$
+\item $cons$. $cons[x; y]$ is defined for any $x$ and $y$. We have $cons[e_1;
+  e_2] = (e_1 \cdot e_2)$. Thus
+  $$ cons[X; A] = (X A) $$
+  $$ cons[(X \cdot A); Y] = ((X \cdot A) Y) $$
+\end{enumerate}
+$car$, $cdr$ and $cons$ are easily seen to satisfy the relations
+$$ car[cons[x; y]] = x $$
+$$ cdr[cons[x; y]] = y $$
+\begin{center}$cons[car[x]; cdr[x]] = x$, provided that $x$ is not
+  atomic.\end{center}
+
+The names ``car'' and ``cons'' will come to have mnemonic
+significance\footnote{significance: $noun$ 1. the importance of something,
+  especially when this has an effect on what happens in the feature. 2. the
+  meaning of something.}
+only when
+we discuss the representation of the system in the computer. Compositions of
+$car$ and $cdr$ give the subexpressions of a given expression in a given
+position. Compositions of $cons$ form expressions of a given structure out of
+parts. The class of functions which can be formed in this way is quite limited
+and not very interesting.
+
 \end{document}
