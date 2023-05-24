@@ -2,6 +2,7 @@
 
 \usepackage{type1cm}
 \usepackage{amsfonts, amssymb, amsmath}
+\usepackage{enumerate} % import for the form like line 643
 
 \usepackage{hyperref}
 
@@ -134,7 +135,10 @@ A
 propositional\footnote{proposition: $noun$ an idea or a plan of action that is
   suggested, especially in business.}
 expression is an expression whose possible values are $T$ (for
-truth) and F (for falsity). We shall assume that the reader is familiar with the
+truth) and F (for falsity). We shall
+assume\footnote{assume$^*$: $verb$ to think or accept that something is true but
+  without having proof of it.}
+that the reader is familiar with the
 propositional connectives $\land$ (``and''), $\lor$ (``or''), and $\lnot$
 (``not''). Typical propositional expressions are:
 $$ x < y $$
@@ -474,10 +478,7 @@ to allow English words and phrases to stand for atomic entities for
 mnemonic\footnote{mnemonic: $noun$ a word, sentence, poem, etc. that helps you
   remember something.}
 reason. The symbols are atomic in the sense that any substructure they may have
-as sequences of characters is ignored. We
-assume\footnote{assume$^*$: $verb$ to think or accept that something is true but
-  without having proof of it.}
-only that different symbols can
+as sequences of characters is ignored. We assume only that different symbols can
 be distinguished. S-expressions are then defined as follows:
 \begin{enumerate}
 \item Atomic symbols are S-expressions.
@@ -524,7 +525,7 @@ Since we regard the expressions with commas as abbreviations for those not
 involving commas, we shall refer to them all as S-expressions.
 
 \paragraph{b.}\textit{Functions of S-expressions and the Expressions That
-  Represent Them}
+  Represent Them.}
 We now define a class of functions of S-expressions. The expressions
 representing these functions are written in a conventional functional
 notation. However, in order to clearly distinguish the expressions representing
@@ -547,8 +548,8 @@ themselves.
 \paragraph{c.}\textit{The Elementary S-functions and Predicates.}
 We introduce the following functions and predicates:
 \begin{enumerate}
-\item $atom$. $atom[x]$ has the value of T or F according to whether $x$ is an
-  atomic symbol. Thus
+\item $atom$. $atom[x]$ has the value of $T$ or $F$ according to whether $x$ is
+  an atomic symbol. Thus
   $$ atom[X] = T $$
   $$ atom[(X \cdot A)] = F $$
 \item $eq$. $eq[x; y]$ is defined if and only if both $x$ and $y$ are
@@ -575,7 +576,7 @@ $$ cdr[cons[x; y]] = y $$
 
 The names ``car'' and ``cons'' will come to have mnemonic
 significance\footnote{significance: $noun$ 1. the importance of something,
-  especially when this has an effect on what happens in the feature. 2. the
+  especially when this has an effect on what happens in the future. 2. the
   meaning of something.}
 only when
 we discuss the representation of the system in the computer. Compositions of
@@ -583,5 +584,138 @@ $car$ and $cdr$ give the subexpressions of a given expression in a given
 position. Compositions of $cons$ form expressions of a given structure out of
 parts. The class of functions which can be formed in this way is quite limited
 and not very interesting.
+
+\paragraph{d.}\textit{Recursive S-Functions.}
+We get a much larger class of functions (in fact, all computable functions) when
+we allow ourselves to form new functions of S-expressions by conditional
+expressions and recursive definition. We now give some examples of functions
+that are definable in this way.
+\begin{enumerate}
+\item $ff[x]$. The value of $ff[x]$ is the first atomic symbol of the
+  S-expression $x$ with the parentheses ignored. Thus
+  $$ ff[((A \cdot B) \cdot C)] = A $$
+  We have
+  $$ ff[x] = [atom[x] \to x; T \to ff[car[x]]] $$
+  We now
+  trace\footnote{trace$^*$: $verb$ \textbf{trace somebody/something (to
+      something)} to find or discover somebody/something by looking carefully
+    for them/it. $syn$ track down}
+  in detail the steps in the evaluation of $ff[((A \cdot B) \cdot
+    C)]$:
+  \begin{align*}
+    &\ \ \ \ ff[((A \cdot B) \cdot C)]                                     \\
+    &= [atom[((A \cdot B) \cdot C)] \to ((A \cdot B) \cdot C); T \to ff[car[((A
+          \cdot B) \cdot C)]]]                                             \\
+    &= [F \to ((A \cdot B) \cdot C); T \to ff[car[((A \cdot B) \cdot C)]]] \\
+    &= [T \to ff[car[((A \cdot B) \cdot C)]]]                              \\
+    &= ff[car[((A \cdot B) \cdot C)]]                                      \\
+    &= ff[(A \cdot B)]                                                     \\
+    &= [atom[(A \cdot B)] \cdot (A \cdot B); T \to ff[car[(A \cdot B)]]]   \\
+    &= [F \to (A \cdot B); T \to ff[car[(A \cdot B)]]]                     \\
+    &= [T \to ff[car[(A \cdot B)]]]                                        \\
+    &= ff[car[(A \cdot B)]]                                                \\
+    &= ff[A]                                                               \\
+    &= [atom[A] \to A; T \to ff[car[A]]]                                   \\
+    &= [T \to A; T \to ff[car[A]]]                                         \\
+    &= A
+  \end{align*}
+\item $subst[x; y; z]$. This function gives the result of substituting the
+  S-expression $x$ for all occurrences of the atomic symbol $y$ in the
+  S-expression $z$. It is defined by
+  \begin{align*}
+    subst[x; y; z] = [atom[z] &\to [eq [z; y] \to x; T \to z];\\
+                          T &\to cons[subst[x; y; car[z]]; subst[x; y; cdr[z]]]]
+  \end{align*}
+  As an example, we have
+  $$ subst[(X \cdot A); B; ((A \cdot B) \cdot C)] = ((A \cdot (X \cdot A)) \cdot
+  C) $$
+\item $equal[x; y]$. This is predicate that has the value $T$ if $x$ and $y$ are
+  the same S-expression, and has the value $F$ otherwise. We have
+  \begin{align*}
+    &\ \ \ \ equal[x; y]                           \\
+    &= [atom[x] \land atom[y] \land eq[x; y]]      \\
+    &\lor [\lnot atom[x] \land \lnot atom[y] \land \\
+    &\ \ \ \ \ equal[car[x]; car[y]] \land         \\
+    &\ \ \ \ \ equal[cdr[x]; cdr[y]]]
+  \end{align*}
+\end{enumerate}
+
+It this convenient to see how the elementary functions look in the abbreviated
+list notation. The reader will easily
+verify\footnote{verify: $verb$ (formal) to check that something is true or accurate.}
+that
+\begin{enumerate}[(i)]
+\item $car[(m_1, m_2, \ldots, m_n)] = m_1$
+\item $cdr[(m_s, m_2, \ldots, m_n)] = (m_2, \ldots, m_n)$
+\item $cdr[(m)] = NIL$
+\item $cons[m_1; (m_2, \ldots, m_n)] = (m_1, m_2, \ldots, m_n)$
+\item $cons[m; NIL] = (m)$
+\end{enumerate}
+
+We define
+$$ null[x] = atom[x] \land eq[x; NIL] $$
+This predicate is useful in dealing with lists.
+
+Compositions of $car$ and $cdr$ arise so frequently that many expressions can be
+written more
+concisely\footnote{concise: $adj.$ giving only the information that is necessary
+  and important, using few words.}
+if we abbreviate
+$$ cadr[x] \text{ for } car[cdr[x]] $$
+$$ caddr[x] \text{ for } car[cdr[cdr[x]]] \text{, etc.} $$
+
+Another useful abbreviation is to write list $[e_1; e_2; \ldots; e_n]$ for\\
+{$cons[e_1; cons[e_2; \ldots; cons[e_n; NIL] \cdots ]]$}.
+
+This function gives the list, $(e_1, \ldots, e_n)$, as a function of its
+elements.
+
+The following functions are useful when S-expressions are regarded as lists.
+\begin{enumerate}
+\item $append[x; y]$.
+  $$ append[x; y] = [null[x] \to y; T \to cons[car[x]; append[cdr[x]; y]]] $$
+  An examples is
+  $$ append[(A, B); (C, D, E)] = (A, B, C, D, E) $$
+\item $among[x; y]$. This predicate is true if the S-expression $x$ occurs among
+  the elements of the list $y$. We have
+  $$ among[x; y] =
+     \lnot null[y] \land [equal[x; car[y]] \lor among[x; cdr[y]]] $$
+\item $pair[x; y]$. This function gives the list of pairs of corresponding
+  elements of the list $x$ and $y$. We have
+  \begin{align*}
+    pair[x; y] = [null[x] \land null[y] &\to NIL;                       \\
+      \lnot atom[x] \land \lnot atom[y] &\to cons[list[car[x]; car[y]]; \\
+                                &\ \ \ \ \ \ \ \ \ \ \ \ pair[cdr[x]; cdr[y]]]]
+  \end{align*}
+  An example is
+  $$ pair[(A, B, C); (X, (Y, Z), U)] = ((A, X), (B, (Y, Z)), (C, U)) \text{.} $$
+\item $assoc[x; y]$. If $y$ is a list of the form $((u_1, v_1), \ldots, (u_n,
+  v_n))$ and $x$ is one of the $u$'s, then $assoc[x; y]$ is the corresponding
+  $v$. We have
+  $$ assoc[x; y] = [eq[caar[y]; x] \to cadar[y]; T \to assoc[x; cdr[y]]] $$
+  An example is
+  $$ assoc[X; ((W, (A, B)), (X, (C, D)), (Y, (E, F)))] = (C, D) \text{.} $$
+\item $sublis[x; y]$. Here $x$ is assumed to have the form of a list of pairs
+  $((u_1, v_1), \ldots, (u_n, v_n))$, where the $u$'s are atomic, and $y$ may be
+  any S-expression. The value of $sublis[x; y]$ is the result of substituting
+  each $v$ for the corresponding $u$ in $y$. In order to define $sublis$, we
+  first define an
+  auxiliary\footnote{auxiliary: $adj.$ (of workers) giving help or support to
+    the main group of workers.}
+  function. We have
+  \begin{align*}
+  sub2[x; z] = [null[x] &\to z;        \\
+         eq[caar[x]; z] &\to cadar[x]; \\
+                      T &\to sub2[cdr[x]; z]]
+  \end{align*}
+  \begin{align*}
+  sublis[x; y] = [atom[y] &\to sub2[x; y]; \\
+                        T &\to cons[sublis[x; car[y]]; sublis[x; cdr[y]]]]
+  \end{align*}
+  We have
+  $$ sublis[((X, (A, B)), (Y, (B, C))); (A, X \cdot Y)] = (A, (A, B), B, C) $$
+\end{enumerate}
+
+\paragraph{e.}\textit{Representation of S-Functions by S-Expressions.}
 
 \end{document}
