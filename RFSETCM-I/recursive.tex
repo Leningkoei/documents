@@ -4,6 +4,7 @@
 \usepackage{amsfonts, amssymb, amsmath}
 \usepackage{enumerate} % import for the form like line 643
 
+\usepackage{microtype}
 \usepackage{hyperref}
 
 \title{Recursive Functions of Symbolic Expressions and Their Computation by
@@ -39,7 +40,7 @@ imperative\footnote{imperative: $adj.$ [not usually before noun] (formal) very
 sentences and could
 exhibit\footnote{exhibit$^*$: $verb$ to show something in a public place for
   people to enjoy or to give them information.}
-``common sense'' in carrying out its
+``common\\sense'' in carrying out its
 instructions. The original
 proposal\footnote{proposal$^*$: $noun$ a formal suggestion or plan; the act of
   making a suggestion.}
@@ -491,7 +492,11 @@ Examples of S-expressions are
 &((AB \cdot C) \cdot D)
 \end{align*}
 An S-expression is then simply an ordered pair, the terms of which may be atomic
-symbols or simpler S-expressions. We can represent a list of arbitrary length in
+symbols or simpler S-expressions. We can represent a list of
+arbitrary\footnote{arbitrary: $adj.$ (of an action, a decision, a rule, etc.)
+  not seeming to be based on a reason, system or plan and sometimes seeming
+  unfair.}
+length in
 terms of S-expressions as follows. The list
 $$ (m_1, m_2, \ldots, m_n) $$
 is represented by the S-expression
@@ -585,7 +590,7 @@ position. Compositions of $cons$ form expressions of a given structure out of
 parts. The class of functions which can be formed in this way is quite limited
 and not very interesting.
 
-\paragraph{d.}\textit{Recursive S-Functions.}
+\paragraph{d.}\textit{Recursive S-functions.}
 We get a much larger class of functions (in fact, all computable functions) when
 we allow ourselves to form new functions of S-expressions by conditional
 expressions and recursive definition. We now give some examples of functions
@@ -716,6 +721,166 @@ The following functions are useful when S-expressions are regarded as lists.
   $$ sublis[((X, (A, B)), (Y, (B, C))); (A, X \cdot Y)] = (A, (A, B), B, C) $$
 \end{enumerate}
 
-\paragraph{e.}\textit{Representation of S-Functions by S-Expressions.}
+\paragraph{e.}\textit{Representation of S-functions by S-expressions.}
+S-functions have been described by M-expressions. We now give a rule for
+translating M-expressions into S-expressions, in order to be able to use
+S-functions for making certain computations with S-functions and for answering
+certain questions about S-functions.
+
+The translation is determined by the following rules in rich we denote the
+translation of an M-expression $\mathcal{E}$ by $\mathcal{E}^*$.
+\begin{enumerate}
+\item If $\mathcal{E}$ is an S-expression $\mathcal{E}^*$ is $(quote, \mathcal{E})$.
+\item Variables and function names that were represented by strings of lowercase
+  letters are translated to the corresponding strings of the corresponding
+  uppercase letters. Thus $car^*$ is $CAR$, and $subst^*$ is $SUBST$.
+\item A form $f[e_1; \ldots; e_n]$ is translated to $(f^*, e_1^*, \ldots,
+  e_n^*)$. Thus $cons[car[x];\\cdr[x]]^*$ is $(CONS, (CAR, X), (CDR, X))$.
+\item ${[p_1 \to e_1; \ldots; p_n \to e_n]}^*$ is $(COND, (p_1^*, e_1^*),
+  \ldots, (p_n^*, e_n^*))$.
+\item ${\lambda[[x_1; \ldots; x_n]; \mathcal{E}]}^*$ is $(LAMBDA, (x_1^*, \ldots,
+  x_n^*), \mathcal{E})$.
+\item ${label[a; \mathcal{E}]}^*$ is $(LABEL, a^*, \mathcal{E}^*)$.
+\end{enumerate}
+
+With these
+conventions\footnote{convention$^*$: $noun$ the way in which something is done
+  that most people in a society expect and consider to be polite or the right
+  way to do it.}
+the substitution function whose M-expression is
+\begin{align*}
+  label[subst[x; y; z];[atom[z] &\to [eq [z; y] \to x; T \to z];\\
+                        T &\to cons[subst[x; y; car[z]]; subst[x; y; cdr[z]]]]]
+\end{align*}
+has the S-expression
+% \begin{verbatim}
+% (LABEL, SUBST, (LAMBDA, (X, Y, Z),
+%   (COND, ((ATOM, Z), (COND, ((EQ, Y, Z), X),
+%                             ((QUOTE, T), Z))),
+%          ((QUOTE, T), (CONS, (SUBST, X, Y, (CAR, Z)),
+%                              (SUBST, X, Y, (CDR, Z)))))))
+% \end{verbatim}
+\begin{align*}
+  &(LABEL, SUBST, (LAMBDA, (X, Y, Z),                                         \\
+  &\ \ \ (COND, ((ATOM, Z), (COND, ((EQ, Y, Z), X),                           \\
+  &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+  \ \ \ \ \ \ \ \ ((QUOTE, T), Z))),                                          \\
+  &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ ((QUOTE, T), (CONS, (SUBST, X, Y, (CAR, Z)), \\
+  &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+  \ \ \ \ \ \ \ \ \ (SUBST, X, Y, (CDR, Z)))))))
+\end{align*}
+
+This notation is writable and
+somewhat\footnote{somewhat$^*$: $adv.$ to some degree. $syn$ rather}
+readable. It can be made easier to read
+and write at the cost of making its structure less regular. If more characters
+were available on the computer, it could be improved
+considerably\footnote{considerably$^*$: $adv.$ (formal) much, a lot. $syn$
+  significantly}
+.
+
+\paragraph{f.}\textit{The Universal S-function $apply$.}
+There is an S-function $apply$ with the
+property\footnote{property$^*$: $noun$ a thing or things that are owned by
+  somebody; a possession or possessions. --- possession: $noun$ (formal) the
+  state of having or owning something.}
+that if $f$ is an S-expression
+for an S-function $f'$ and $args$ is a list of arguments of the form $(arg_1,
+\ldots, arg_n)$, where $arg_1, \ldots, arg_n$ are arbitrary S-expressions, then
+$apply[f; args]$ and $f'[arg_1; \ldots; arg_n]$ are defined for the same values
+of $arg_1, \ldots, arg_n$, and are equal when defined. For example,
+\begin{align*}
+  &\ \ \ \ \lambda[[x; y]; cons[car[x]; y]][(A, B); (C, D)]\\
+  &= apply[(LAMBDA, (X, Y), (CONS, (CAR, X), Y)); ((A, B), (C, D))]\\
+  &= (A, C, D)
+\end{align*}
+
+The S-function $apply$ is defined by
+$$ apply[f; args] = eval[cons[f; appq[args]]; NIL] \text{,} $$
+where
+$$ appq[m] = [null[m] \to NIL; T \to cons[list[QUOTE; car[m]]; appq[cdr[m]]]] $$
+and
+\begin{align*}
+    &eval[e; a]                                                               \\
+  = &[atom[e] \to assoc[e; a];                                                \\
+    &\ atom[car[e]] \to [eq[car[e]; QUOTE] \to cadr[e];                       \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         eq[car[e]; ATOM]  \to atom[eval[cadr[e]; a]];        \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                   eq[car[e]; EQ] \to [eval[cadr[e]; a] = eval[caddr[e]; a]]; \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         eq[car[e]; COND] \to evcon[cdr[e]; a];               \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         eq[car[e]; CAR] \to car[eval[cadr[e]; a]];           \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         eq[car[e]; CDR] \to cdr[eval[cadr[e]; a]];           \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         eq[car[e]; CONS] \to cons[eval[cadr[e]; a];          \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                    \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ eval[caddr[e]; a]]; \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         T \to eval[cons[assoc[car[e]; a];                    \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                               \ \ \ \ \ evlis[cdr[e]; a]]; a]];              \\
+    &\ eq[caar[e]; LABEL] \to eval[cons[caddar[e]; cdr[e]];                   \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                                 \ cons[list[cadar[e]; car[e]]; a]];          \\
+    &\ eq[caar[e]; LAMBDA] \to eval[caddar[e];                                \\
+      &\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \
+                         \ \ \ \ \ append[pair[cadar[e]; evlis[cdr[e]; a]; a]]]]
+\end{align*}
+and
+$$ evcon[c; a] = [eval[caar[c]; a] \to eval[cadar[c]; a]; T \to evcon[cdr[c];
+    a]] $$
+$$ evlis[m; a] = [null[m] \to NIL; T \to cons[eval[car[m]; a]; evlis[cdr[m];
+      a]]] $$
+
+We now explain a number of points about these definitions.
+\begin{enumerate}
+\item $apply$ itself forms an expression representing the value of the function
+  applied to the arguments, and puts the work of evaluating this expression onto
+  a function $eval$. It uses $appq$ to put quotes around each of the arguments,
+  so that $eval$ will regard them as standing for themselves.
+\item $eval[e; a]$ has two arguments, an expression $e$ to be evaluated, and a
+  list of pairs $a$. The first item of each pair is an atomic symbol, and the
+  second is the expression for which the symbol stands.
+\item If the expression to be evaluated is atomic, $eval$ evaluates whatever is
+  paired with it first on the list $a$.
+\item If $e$ is not atomic but $car[e]$ is atomic, then the expression has one
+  of the forms $(QUOTE, e)$ or $(ATOM, e)$ or $(EQ, e_1, e_2)$ or $(COND, (p_1,
+  e_1),\\\ldots, (p_n, e_n))$, or $(CAR, e)$ or $(CDR, e)$ or $(CONS, e_1, e_2)$
+  or $(f, e_1, \ldots,\\e_n)$ where $f$ is an atomic symbol.
+
+  In the case $(QUOTE, e)$ the expression $e$, itself, is taken. In the case of
+  $(ATOM, e)$ or $(CAR, e)$ or $(CDR, e)$ the expression $e$ is evaluated and
+  the
+  appropriate\footnote{appropriate$^*$: $adj.$ suitable, acceptable or correct
+    for the particular circumstances. --- circumstance: $noun$ the conditions
+    and facts that are connected with and affect a situation, an event or an
+    action. ------ affect: $verb$ \textit{affect somebody/something} to produce
+    a change in somebody/something.}
+  function taken. In the case of $(COND, (p_1, e_1), \ldots,\\(p_n, e_n))$ the
+  $p$'s have to be evaluated in order until a true $p$ is found, and then the
+  corresponding $e$ must be evaluated. This is accomplished by $evcon$. Finally,
+  in the case of $(f, e_1, \ldots, e_n)$ we evaluated the expression that
+  results from replacing $f$ in this expression by whatever it is paired with in
+  the list $a$.
+\item The evaluation of $((LABEL, f, \mathcal{E}), e_1, \ldots, e_n)$ is
+  accomplished by evaluating $(\mathcal{E}, e_1, \ldots, e_n)$ with the pairing
+  $(f, (LABEL, f, \mathcal{E}))$ put on the front of the previous list $a$ of
+  pairs.
+\item Finally, the evaluation of $((LAMBDA, (x_1, \ldots, x_n), \mathcal{E}),
+  e_1, \ldots, e_n)$ is accomplished by evaluating $\mathcal{E}$ with the list
+  of pairs $((x_1, e_1), \ldots, (x_n, e_n)\\)$ put on the front of the previous
+  list $a$.
+
+  The list $a$ could be
+  eliminated\footnote{eliminate: $verb$ to remove or get rid of
+    something/somebody.}
+  , and $LAMBDA$ and $LABEL$ expressions evaluated
+  by substituting the arguments for the variables in the expressions
+  $\mathcal{E}$. Unfortunately, difficulties involving collisions of bound
+  variables arise, but they are avoided by using the list $a$.
+\end{enumerate}
 
 \end{document}
