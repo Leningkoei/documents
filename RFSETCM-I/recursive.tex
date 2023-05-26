@@ -883,4 +883,119 @@ We now explain a number of points about these definitions.
   variables arise, but they are avoided by using the list $a$.
 \end{enumerate}
 
+Calculating the values of functions by using $apply$ is an activity better
+suited to electronic computers than to people. As an
+illustration\footnote{illustration: $noun$ a drawing or picture in a book,
+  magazine, etc. especially one that explain something.}
+, however, we
+now give some of the steps for calculating
+\begin{align*}
+  apply[(LABEL, FF, (LAMBDA, (X), (COND, (ATOM, X), X),\\((QUOTE, T), (FF, (CAR,
+    X)))));((A \cdot B))] = A
+\end{align*}
+The first argument is the S-expression that represents the function $ff$ defined
+in section 3d. We shall abbreviate it by using the letter $\phi$. We have
+\begin{align*}
+  &\ \ \ \ apply[\phi; ((A \cdot B))]                                    \\
+  &= eval[((LABEL, FF, \psi), (QUOTE, (A \cdot B))); NIL]                \\
+  &\ \ \ \ \text{where $\psi$ is the part of $\phi$ beginning $(LAMBDA$} \\
+  &= eval[((LAMBDA, (X), \omega), (QUOTE, (A \cdot B))); ((FF, \phi))]   \\
+  &\ \ \ \text{where $\omega$ is the part of $\psi$ beginning $(COND$} \\
+  &= eval[(COND, (\pi_1, \epsilon_1), (\pi_2, \epsilon_2)); ((X, (QUOTE, (A
+    \cdot B))), (FF, \phi))]                                             \\
+  &\ \ \ \ \text{Denoting $((X, (QUOTE, (A \cdot B))), (FF, \phi))$ by $a$, we
+    obtain}                                                              \\
+  &= evcon[((\pi_1, \epsilon_1), (\pi_2, \epsilon_2)); a]
+\end{align*}
+This involves
+\begin{align*}
+  &\ \ \ \ eval[\pi; a]                                               \\
+  &= eval[(ATOM, X); a]                                               \\
+  &= atom[eval[X; a]]                                                 \\
+  &= atom[eval[assoc[X; ((X, (QUOTE, (A \cdot B))), (FF, \phi))]; a]] \\
+  &= atom[eval[(QUOTE, (A \cdot B)); a]]                              \\
+  &= atom[(A \cdot B)]                                                \\
+  &= F
+\end{align*}
+Our main calculation continues with
+$$ apply[\phi; ((A \cdot B))] = evcon[((\pi_2, \epsilon_2)); a] $$
+which involves
+$$ eval[\pi_2; a] = eval[(QUOTE, T); a] = T \text{.} $$
+Our main calculation again continues with
+\begin{align*}
+  &\ \ \ \ apply[\phi; ((A \cdot B))] \\
+  &= eval[\epsilon; a]                \\
+  &= eval[(FF, (CAR, X)); a]          \\
+  &= eval[CONS[\phi; evlis[((CAR, X)); a]]; a]
+\end{align*}
+Evaluating evlis $[((CAR, X)); a]$ involves
+$$ eval[(CAR, X); a] = car[eval[X; a]] = car[(A \cdot B)] \text{,} $$
+where we took steps from the earlier computation of $atom[eval[X; a]] = A$, and
+so $evlis[((CAR, X)); a]$ then becomes
+$$ list[list[QUOTE; A]] = ((QUOTE, A)) \text{,} $$
+and our main quantity becomes
+$$ = eval[(\phi, (QUOTE, A)); a] $$
+
+The subsequent steps are made as in the beginning of the calculation. The
+$LABEL$ and $LAMBDA$ cause new pairs to be added to $a$, which gives a new list
+of pairs $a_1$. The $\pi_1$ term of the conditional $eval[(ATOM, X); a_1]$ has
+the value $T$ because $X$ is paired with $(QUOTE, A)$ first in $a_1$, rather
+than with $(QUOTE, (A \cdot B))$ as in $a$.
+
+Therefore we end up with $eval[X; a_1]$ from the $evcon$, and this is just $A$.
+
+\paragraph{g.}\textit{Functions with Functions as Arguments.}
+There are a number of useful functions some of whose arguments are
+functions. They are especially useful in defining other functions. One such
+function is $maplist[x; f]$ with an S-expression argument $x$ and an argument
+$f$ that is a function from S-expressions to S-expressions.
+$$ maplist[x; f] = [null[x] \to NIL; T \to cons[f[x]; maplist[cdr[x]; f]]] $$
+The
+usefulness\footnote{usefulness: $noun$ the fact of being useful or possible to use.}
+of $maplist$ is illustrated by formulas for the partial
+derivative\footnote{derivative: $noun$ a word or thing that has been developed
+  or produced.}
+with respect to $x$ of expressions involving sums and products of $x$
+and other variables. The S-expressions that we shall differentiate are formed as
+follows.
+\begin{enumerate}
+\item An atomic symbol is an allowed expression.
+\item If $e_1, e_2, \ldots, e_n$ are allowed expressions, $(PLUS, e_1, \ldots,
+  e_n)$ and \\$(TIMES, e_1, \ldots, e_n)$ are also, and represent the sum and
+  product, respectively, of $e_1, \ldots, e_n$.
+\end{enumerate}
+
+This is, essentially, the Polish notation for functions, except that the
+inclusion of parentheses and commas allows functions of variable numbers of
+arguments. An example of an allowed expression is $(TIMES, X, (PLUS, X,
+A),\\Y)$, the conventional algebraic notation for which is $X(X + A)Y$.
+
+Our differentiation formula, which gives the derivative of $y$ with respect to
+$x$, is
+\begin{align*}
+  diff[y; x] = [atom[y] &\to [eq[y; x] \to ONE; T \to ZERO];                  \\
+    eq[car[y]; PLUS] &\to cons[PLUS; maplist[cdr[y]; \lambda[[z]; diff[car[z];
+            x]]]];                                                            \\
+    eq[car[y]; TIMES] &\to cons[PLUS; maplist[cdr[y]; \lambda[[z]; cons[TIMES;\\
+maplist[cdr[y]; \lambda[[&w]; \lnot eq[z; w] \to car[w]; T \to diff[car[[w];
+        x]]]]]]]]]
+\end{align*}
+
+The derivative of the expression $(TIMES, X, (PLUS, X, A), Y)$, as computed by
+this formula, is
+\begin{align*}
+(PLUS, &(TIMES, ONE, (PLUS, X, A), Y),    \\
+       &(TIMES, X, (PLUS, ONE, ZERO), Y), \\
+       &(TIMES, X, (PLUS, X, A), ZERO))
+\end{align*}
+
+Beside $maplist$, another useful function with functional arguments is $search$,
+which is defined as
+$$ search[x; p; f; u] = [null[x] \to u; p[x] \to f[x]; T \to search[cdr[x]; p;
+    f; u]] $$
+
+The function $search$ is used to search a list for an element that has the
+property $p$, and if such an element is found, $f$ of that element is taken. If
+there is no such element, the function $u$ of no arguments is computed.
+
 \end{document}
