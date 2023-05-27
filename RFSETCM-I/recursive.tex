@@ -3,14 +3,28 @@
 \usepackage{type1cm}
 \usepackage{amsfonts, amssymb, amsmath}
 \usepackage{enumerate} % import for the form like line 643
+\usepackage{caption}
+\usepackage{subcaption}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes, arrows}
+\usetikzlibrary{matrix, positioning, chains}
 
 \usepackage{microtype}
+\usepackage{bookmark}
 \usepackage{hyperref}
+
+% begin{declare}
 
 \title{Recursive Functions of Symbolic Expressions and Their Computation by
   Machine, Part I}
 \author{John McCarthy}
 \date{April 1960}
+
+\tikzstyle{box} = [rectangle, minimum width = 1, minimum height = 1, draw =
+  black]
+
+% end{declare}
 
 \begin{document}
 
@@ -997,5 +1011,158 @@ $$ search[x; p; f; u] = [null[x] \to u; p[x] \to f[x]; T \to search[cdr[x]; p;
 The function $search$ is used to search a list for an element that has the
 property $p$, and if such an element is found, $f$ of that element is taken. If
 there is no such element, the function $u$ of no arguments is computed.
+
+\section{The LISP Programming System}
+
+The LISP programming system is a system for using the IBM 704 computer to
+compute with symbolic information in the form of S-expressions. It has been or
+will be used for the following purposes:
+\begin{enumerate}
+\item Writing a compiler to compile LISP programs into machine language.
+\item Writing a program to check proofs in a class of formal logical systems.
+\item Writing programs for formal differentiation and integration.
+\item Writing programs to realize various algorithms for generating proofs in
+  predicate calculus.
+\item Making certain engineering calculations whose results are formulas rather
+  than numbers.
+\item Programming the Advice Taker system.
+\end{enumerate}
+
+The
+basis\footnote{basis$^*$: $noun$ the reason why people take a particular
+  action.}
+of the system is a way of writing computer programs to evaluate
+S-functions. This will be described in the following sections.
+
+In addition to the facilities for describing S-functions, there are facilities
+for using S-functions in programs written as sequences of statements along the
+lines of FORTRAN or ALGOL. These features will not be described in this
+article.
+
+\paragraph{a.}\textit{Representation of S-expressions by List Structure.}
+A list structure is a collection of computer words arranged as in figure 1a or
+1b. Each word of the list structure is represented by one of the subdivided
+rectangles in the figure. The $left$ box of a rectangle represents the $address$
+field of the word and the $right$ box represents the $decrement$ field. An arrow
+from a box to another rectangle means that the field corresponding to the box
+contains the location of the word corresponding to the other rectangle.
+
+\begin{figure}[h]
+  \begin{subfigure}{\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      % 0-0
+      \node [box] (box-0-0-a) {};
+      \node [box, right of = box-0-0-a, xshift = 7] (box-0-0-b) {};
+      % 0-1
+      \node [box, below of = box-0-0-a, yshift = -28] (box-0-1-a) {};
+      \node [box, right of = box-0-1-a, xshift = 7] (box-0-1-b) {};
+      % 0-2
+      \node [box, below of = box-0-1-a, yshift = -28] (box-0-2-a) {};
+      \node [box, right of = box-0-2-a, xshift = 7] (box-0-2-b) {};
+      % 1-0
+      \node [box, right of = box-0-0-b, xshift = 28] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 7] (box-1-0-b) {};
+      % 1-1
+      \node [box, right of = box-0-1-b, xshift = 28] (box-1-1-a) {};
+      \node [box, right of = box-1-1-a, xshift = 7] (box-1-1-b) {};
+      % 1-2
+      \node [box, right of = box-0-2-b, xshift = 28] (box-1-2-a) {};
+      \node [box, right of = box-1-2-a, xshift = 7] (box-1-2-b) {};
+      % 2-0
+      \node [box, right of = box-1-0-b, xshift = 28] (box-2-0-a) {};
+      \node [box, right of = box-2-0-a, xshift = 7] (box-2-0-b) {};
+      % 2-1
+      \node [box, below of = box-2-0-a, yshift = -28] (box-2-1-a) {};
+      \node [box, right of = box-2-1-a, xshift = 7] (box-2-1-b) {};
+      % 2-2
+      \node [box, below of = box-2-1-a, yshift = -28] (box-2-2-a) {};
+      \node [box, right of = box-2-2-a, xshift = 7] (box-2-2-b) {};
+      % 3-1
+      \node [box, right of = box-2-1-b, xshift = 28] (box-3-1-a) {};
+      \node [box, right of = box-3-1-a, xshift = 7] (box-3-1-b) {};
+      % 3-2
+      \node [box, right of = box-2-2-b, xshift = 28] (box-3-2-a) {};
+      \node [box, right of = box-3-2-a, xshift = 7] (box-3-2-b) {};
+     
+      \draw [->] (0, 1) -- (box-0-0-a);
+      \draw [->] (box-0-0-a) -- (box-0-1-a);
+      \draw [->] (box-0-0-b) -- (box-1-0-a);
+      \draw [->] (box-0-1-a) -- (box-0-2-a);
+      \draw [->] (box-0-1-b) -- (box-1-1-a);
+      \draw [->] (box-0-2-b) -- (box-1-2-a);
+      \draw [->] (box-1-0-b) -- (box-2-0-a);
+      \draw [->] (box-2-0-a) -- (box-2-1-a);
+      \draw [->] (box-2-1-a) -- (box-2-2-a);
+      \draw [->] (box-2-1-b) -- (box-3-1-a);
+      \draw [->] (box-2-2-b) -- (box-3-2-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      % 0-0
+      \node [box] (box-0-0-a) {};
+      \node [box, right of = box-0-0-a, xshift = 7] (box-0-0-b) {};
+      % 0-1
+      \node [box, below of = box-0-0-a, yshift = -28] (box-0-1-a) {};
+      \node [box, right of = box-0-1-a, xshift = 7] (box-0-1-b) {};
+      % 0-2
+      \node [box, below of = box-0-1-a, yshift = -28] (box-0-2-a) {};
+      \node [box, right of = box-0-2-a, xshift = 7] (box-0-2-b) {};
+      % 1-0
+      \node [box, right of = box-0-0-b, xshift = 28] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 7] (box-1-0-b) {};
+      % 1-1
+      \node [box, right of = box-0-1-b, xshift = 28] (box-1-1-a) {};
+      \node [box, right of = box-1-1-a, xshift = 7] (box-1-1-b) {};
+      % 1-2
+      \node [box, right of = box-0-2-b, xshift = 28] (box-1-2-a) {};
+      \node [box, right of = box-1-2-a, xshift = 7] (box-1-2-b) {};
+      % 2-0
+      \node [box, right of = box-1-0-b, xshift = 28] (box-2-0-a) {};
+      \node [box, right of = box-2-0-a, xshift = 7] (box-2-0-b) {};
+
+      \draw [->] (0, 1) -- (box-0-0-a);
+      % 0-0
+      \draw [->] (box-0-0-a) -- (box-0-1-a);
+      \draw [->] (box-0-0-b) -- (box-1-0-a);
+      % 0-1
+      \draw [->] (box-0-1-a) -- (box-0-2-a);
+      \draw [->] (box-0-1-b) -- (box-1-1-a);
+      % 0-2
+      \draw [->] (box-0-2-b) -- (box-1-2-a);
+      % 1-0
+      \draw [->] (box-1-0-b) -- (box-2-0-a);
+      % 2-0
+      \draw [->] (box-2-0-a) -- +(0, -0.5) -- +(-3, -0.5) -- +(-3, -1) --
+      (box-0-1-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      % 0-0
+      \node [box] (box-0-0-a) {};
+      \node [box, right of = box-0-0-a, xshift = 7] (box-0-0-b) {};
+      % 1-0
+      \node [box, right of = box-0-0-b, xshift = 28] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 7] (box-1-0-b) {};
+      % 2-0
+      \node [box, right of = box-1-0-b, xshift = 28] (box-2-0-a) {};
+      \node [box, right of = box-2-0-a, xshift = 7] (box-2-0-b) {};
+
+      \draw [->] (0, 1) -- (box-0-0-a);
+      \draw [->] (box-0-0-b) -- (box-1-0-a);
+      \draw [->] (box-1-0-b) -- (box-2-0-a);
+      \draw [->] (box-2-0-b) -- +(0.5, 0) -- +(0.5, 0.5) -- +(-3, 0.5) -- +(-3,
+      0) -- (box-0-0-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \caption{}
+\end{figure}
 
 \end{document}
