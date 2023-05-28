@@ -21,8 +21,8 @@
 \author{John McCarthy}
 \date{April 1960}
 
-\tikzstyle{box} = [rectangle, minimum width = 1, minimum height = 1, draw =
-  black]
+\tikzstyle{box} = [rectangle, minimum width = 16, minimum height = 16, draw =
+  black, text centered]
 
 % end{declare}
 
@@ -1053,37 +1053,37 @@ contains the location of the word corresponding to the other rectangle.
     \begin{tikzpicture}[node distance = 0]
       % 0-0
       \node [box] (box-0-0-a) {};
-      \node [box, right of = box-0-0-a, xshift = 7] (box-0-0-b) {};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
       % 0-1
-      \node [box, below of = box-0-0-a, yshift = -28] (box-0-1-a) {};
-      \node [box, right of = box-0-1-a, xshift = 7] (box-0-1-b) {};
+      \node [box, below of = box-0-0-a, yshift = -32] (box-0-1-a) {};
+      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {};
       % 0-2
-      \node [box, below of = box-0-1-a, yshift = -28] (box-0-2-a) {};
-      \node [box, right of = box-0-2-a, xshift = 7] (box-0-2-b) {};
+      \node [box, below of = box-0-1-a, yshift = -32] (box-0-2-a) {};
+      \node [box, right of = box-0-2-a, xshift = 16] (box-0-2-b) {};
       % 1-0
-      \node [box, right of = box-0-0-b, xshift = 28] (box-1-0-a) {};
-      \node [box, right of = box-1-0-a, xshift = 7] (box-1-0-b) {};
+      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
       % 1-1
-      \node [box, right of = box-0-1-b, xshift = 28] (box-1-1-a) {};
-      \node [box, right of = box-1-1-a, xshift = 7] (box-1-1-b) {};
+      \node [box, right of = box-0-1-b, xshift = 48] (box-1-1-a) {};
+      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {};
       % 1-2
-      \node [box, right of = box-0-2-b, xshift = 28] (box-1-2-a) {};
-      \node [box, right of = box-1-2-a, xshift = 7] (box-1-2-b) {};
+      \node [box, right of = box-0-2-b, xshift = 48] (box-1-2-a) {};
+      \node [box, right of = box-1-2-a, xshift = 16] (box-1-2-b) {};
       % 2-0
-      \node [box, right of = box-1-0-b, xshift = 28] (box-2-0-a) {};
-      \node [box, right of = box-2-0-a, xshift = 7] (box-2-0-b) {};
+      \node [box, right of = box-1-0-b, xshift = 48] (box-2-0-a) {};
+      \node [box, right of = box-2-0-a, xshift = 16] (box-2-0-b) {};
       % 2-1
-      \node [box, below of = box-2-0-a, yshift = -28] (box-2-1-a) {};
-      \node [box, right of = box-2-1-a, xshift = 7] (box-2-1-b) {};
+      \node [box, below of = box-2-0-a, yshift = -32] (box-2-1-a) {};
+      \node [box, right of = box-2-1-a, xshift = 16] (box-2-1-b) {};
       % 2-2
-      \node [box, below of = box-2-1-a, yshift = -28] (box-2-2-a) {};
-      \node [box, right of = box-2-2-a, xshift = 7] (box-2-2-b) {};
+      \node [box, below of = box-2-1-a, yshift = -32] (box-2-2-a) {};
+      \node [box, right of = box-2-2-a, xshift = 16] (box-2-2-b) {};
       % 3-1
-      \node [box, right of = box-2-1-b, xshift = 28] (box-3-1-a) {};
-      \node [box, right of = box-3-1-a, xshift = 7] (box-3-1-b) {};
+      \node [box, right of = box-2-1-b, xshift = 48] (box-3-1-a) {};
+      \node [box, right of = box-3-1-a, xshift = 16] (box-3-1-b) {};
       % 3-2
-      \node [box, right of = box-2-2-b, xshift = 28] (box-3-2-a) {};
-      \node [box, right of = box-3-2-a, xshift = 7] (box-3-2-b) {};
+      \node [box, right of = box-2-2-b, xshift = 48] (box-3-2-a) {};
+      \node [box, right of = box-3-2-a, xshift = 16] (box-3-2-b) {};
      
       \draw [->] (0, 1) -- (box-0-0-a);
       \draw [->] (box-0-0-a) -- (box-0-1-a);
@@ -1104,25 +1104,25 @@ contains the location of the word corresponding to the other rectangle.
     \begin{tikzpicture}[node distance = 0]
       % 0-0
       \node [box] (box-0-0-a) {};
-      \node [box, right of = box-0-0-a, xshift = 7] (box-0-0-b) {};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
       % 0-1
-      \node [box, below of = box-0-0-a, yshift = -28] (box-0-1-a) {};
-      \node [box, right of = box-0-1-a, xshift = 7] (box-0-1-b) {};
+      \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {};
+      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {};
       % 0-2
-      \node [box, below of = box-0-1-a, yshift = -28] (box-0-2-a) {};
-      \node [box, right of = box-0-2-a, xshift = 7] (box-0-2-b) {};
+      \node [box, below of = box-0-1-a, yshift = -48] (box-0-2-a) {};
+      \node [box, right of = box-0-2-a, xshift = 16] (box-0-2-b) {};
       % 1-0
-      \node [box, right of = box-0-0-b, xshift = 28] (box-1-0-a) {};
-      \node [box, right of = box-1-0-a, xshift = 7] (box-1-0-b) {};
+      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
       % 1-1
-      \node [box, right of = box-0-1-b, xshift = 28] (box-1-1-a) {};
-      \node [box, right of = box-1-1-a, xshift = 7] (box-1-1-b) {};
+      \node [box, right of = box-0-1-b, xshift = 48] (box-1-1-a) {};
+      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {};
       % 1-2
-      \node [box, right of = box-0-2-b, xshift = 28] (box-1-2-a) {};
-      \node [box, right of = box-1-2-a, xshift = 7] (box-1-2-b) {};
+      \node [box, right of = box-0-2-b, xshift = 48] (box-1-2-a) {};
+      \node [box, right of = box-1-2-a, xshift = 16] (box-1-2-b) {};
       % 2-0
-      \node [box, right of = box-1-0-b, xshift = 28] (box-2-0-a) {};
-      \node [box, right of = box-2-0-a, xshift = 7] (box-2-0-b) {};
+      \node [box, right of = box-1-0-b, xshift = 48] (box-2-0-a) {};
+      \node [box, right of = box-2-0-a, xshift = 16] (box-2-0-b) {};
 
       \draw [->] (0, 1) -- (box-0-0-a);
       % 0-0
@@ -1136,7 +1136,7 @@ contains the location of the word corresponding to the other rectangle.
       % 1-0
       \draw [->] (box-1-0-b) -- (box-2-0-a);
       % 2-0
-      \draw [->] (box-2-0-a) -- +(0, -0.5) -- +(-3, -0.5) -- +(-3, -1) --
+      \draw [->] (box-2-0-a) -- +(0, -0.8) -- +(-5, -0.8) -- +(-5, -1.7) --
       (box-0-1-a);
     \end{tikzpicture}
     \caption{}
@@ -1146,23 +1146,111 @@ contains the location of the word corresponding to the other rectangle.
     \begin{tikzpicture}[node distance = 0]
       % 0-0
       \node [box] (box-0-0-a) {};
-      \node [box, right of = box-0-0-a, xshift = 7] (box-0-0-b) {};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
       % 1-0
-      \node [box, right of = box-0-0-b, xshift = 28] (box-1-0-a) {};
-      \node [box, right of = box-1-0-a, xshift = 7] (box-1-0-b) {};
+      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
       % 2-0
-      \node [box, right of = box-1-0-b, xshift = 28] (box-2-0-a) {};
-      \node [box, right of = box-2-0-a, xshift = 7] (box-2-0-b) {};
+      \node [box, right of = box-1-0-b, xshift = 48] (box-2-0-a) {};
+      \node [box, right of = box-2-0-a, xshift = 16] (box-2-0-b) {};
 
       \draw [->] (0, 1) -- (box-0-0-a);
       \draw [->] (box-0-0-b) -- (box-1-0-a);
       \draw [->] (box-1-0-b) -- (box-2-0-a);
-      \draw [->] (box-2-0-b) -- +(0.5, 0) -- +(0.5, 0.5) -- +(-3, 0.5) -- +(-3,
-      0) -- (box-0-0-a);
+      \draw [->] (box-2-0-b) -- +(0.5, 0) -- +(0.5, 0.5) -- +(-5.5, 0.5) --
+      +(-5.5, 0) -- (box-0-0-a);
     \end{tikzpicture}
     \caption{}
   \end{subfigure}
   \caption{}
 \end{figure}
+
+It is permitted for a substructure to occur in more than one place in a list
+structure, as in figure 1b, but it is not permitted for a structure to have
+cycles, as in figure 1c. An atomic symbol is represented in the computer by a
+list structure of special form called the $
+association\footnote{association$^*$: $noun$ an official group of people who
+  have joined together for a particular purpose. $syn$ organization}
+list$ of the symbol. The
+address field of the first word contains a special
+constant\footnote{constant$^*$: $adj.$ happening all the time or
+  repeatedly. $noun$ (technical) a number or quantity that not vary. $opp$
+  variable}
+which enables the
+program to tell that this word represents an atomic symbol. We shall describe
+association lists in section 4b.
+
+An S-expression $x$ that is not atomic is represented by a word, the address and
+decrement parts of which contain the locations of the subexpressions $car[x]$
+and $cdr[x]$, respectively. If we use the symbols $A$, $B$, etc. to denote the
+locations of the association list of these symbols, then the S-expression $((A
+\cdot B) \cdot (C \cdot (E \cdot F)))$ is represented by the list structure $a$
+of figure 2. Turning to the list form of S-expressions, we see that the
+S-expression $(A, (B, C), D)$, which is an abbreviation for $(A \cdot ((B \cdot
+(C \cdot NIL)) \cdot (D \cdot NIL)))$, is represented by the list structure of
+figure 2b.
+
+\begin{figure}[ht]
+  \begin{subfigure}{0.49\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      % 0-0
+      \node [box] (box-0-0-a) {};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
+      % 0-1
+      \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {A};
+      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {B};
+      % 1-0
+      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {C};
+      \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
+      % 1-1
+      \node [box, right of = box-0-1-b, xshift = 48] (box-1-1-a) {E};
+      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {F};
+
+      \draw [->] (0, 1) -- (box-0-0-a);
+      \draw [->] (box-0-0-a) -- (box-0-1-a);
+      \draw [->] (box-0-0-b) -- (box-1-0-a);
+      \draw [->] (box-1-0-b) -- +(1, 0) -- +(1, -0.8) -- +(-1.4, -0.8) --
+      +(-1.4, -1.7) -- (box-1-1-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      % 0-0
+      \node [box] (box-0-0-a) {A};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
+      % 1-0
+      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {};
+      \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
+      % 1-1
+      \node [box, below of = box-1-0-a, yshift = -48] (box-1-1-a) {B};
+      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {};
+      % 2-0
+      \node [box, right of = box-1-0-b, xshift = 48] (box-2-0-a) {D};
+      \node [box, right of = box-2-0-a, xshift = 16] (box-2-0-b) {};
+      % 2-1
+      \node [box, right of = box-1-1-b, xshift = 48] (box-2-1-a) {C};
+      \node [box, right of = box-2-1-a, xshift = 16] (box-2-1-b) {};
+
+      \draw [->] (0, 1) -- (box-0-0-a);
+      \draw [->] (box-0-0-b) -- (box-1-0-a);
+      \draw [->] (box-1-0-a) -- (box-1-1-a);
+      \draw [->] (box-1-0-b) -- (box-2-0-a);
+      \draw [->] (box-1-1-b) -- (box-2-1-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \caption{}
+\end{figure}
+
+When a list structure is regarded as representing a list, we see that each term
+of the list
+occupies\footnote{occupy$^*$: $verb$ \textit{occupy something} to fill or use a
+  space, an area or an amount of time. $syn$ take up}
+the address part of a word, the decrement part of which
+$points$ to the word containing the next term, while the last word has $NIL$ in
+its decrement.
 
 \end{document}
