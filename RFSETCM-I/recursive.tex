@@ -23,6 +23,9 @@
 
 \tikzstyle{box} = [rectangle, minimum width = 16, minimum height = 16, draw =
   black, text centered]
+\tikzstyle{textarea} = [rectangle, minimum height = 16, text centered]
+\tikzstyle{textbox} = [rectangle, minimum height = 16, draw = black, text
+  centered]
 
 % end{declare}
 
@@ -1040,7 +1043,7 @@ lines of FORTRAN or ALGOL. These features will not be described in this
 article.
 
 \paragraph{a.}\textit{Representation of S-expressions by List Structure.}
-A list structure is a collection of computer words arranged as in figure 1a or
+A list structure is a collection of computer words arranged as in Figure 1a or
 1b. Each word of the list structure is represented by one of the subdivided
 rectangles in the figure. The $left$ box of a rectangle represents the $address$
 field of the word and the $right$ box represents the $decrement$ field. An arrow
@@ -1166,8 +1169,8 @@ contains the location of the word corresponding to the other rectangle.
 \end{figure}
 
 It is permitted for a substructure to occur in more than one place in a list
-structure, as in figure 1b, but it is not permitted for a structure to have
-cycles, as in figure 1c. An atomic symbol is represented in the computer by a
+structure, as in Figure 1b, but it is not permitted for a structure to have
+cycles, as in Figure 1c. An atomic symbol is represented in the computer by a
 list structure of special form called the $
 association\footnote{association$^*$: $noun$ an official group of people who
   have joined together for a particular purpose. $syn$ organization}
@@ -1185,12 +1188,12 @@ decrement parts of which contain the locations of the subexpressions $car[x]$
 and $cdr[x]$, respectively. If we use the symbols $A$, $B$, etc. to denote the
 locations of the association list of these symbols, then the S-expression $((A
 \cdot B) \cdot (C \cdot (E \cdot F)))$ is represented by the list structure $a$
-of figure 2. Turning to the list form of S-expressions, we see that the
+of Figure 2. Turning to the list form of S-expressions, we see that the
 S-expression $(A, (B, C), D)$, which is an abbreviation for $(A \cdot ((B \cdot
 (C \cdot NIL)) \cdot (D \cdot NIL)))$, is represented by the list structure of
-figure 2b.
+Figure 2b.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \begin{subfigure}{0.49\textwidth}
     \center
     \begin{tikzpicture}[node distance = 0]
@@ -1198,14 +1201,14 @@ figure 2b.
       \node [box] (box-0-0-a) {};
       \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
       % 0-1
-      \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {A};
-      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {B};
+      \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {$A$};
+      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {$B$};
       % 1-0
-      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {C};
+      \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {$C$};
       \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
       % 1-1
-      \node [box, right of = box-0-1-b, xshift = 48] (box-1-1-a) {E};
-      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {F};
+      \node [box, right of = box-0-1-b, xshift = 48] (box-1-1-a) {$E$};
+      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {$F$};
 
       \draw [->] (0, 1) -- (box-0-0-a);
       \draw [->] (box-0-0-a) -- (box-0-1-a);
@@ -1219,19 +1222,19 @@ figure 2b.
     \center
     \begin{tikzpicture}[node distance = 0]
       % 0-0
-      \node [box] (box-0-0-a) {A};
+      \node [box] (box-0-0-a) {$A$};
       \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
       % 1-0
       \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {};
       \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
       % 1-1
-      \node [box, below of = box-1-0-a, yshift = -48] (box-1-1-a) {B};
+      \node [box, below of = box-1-0-a, yshift = -48] (box-1-1-a) {$B$};
       \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {};
       % 2-0
-      \node [box, right of = box-1-0-b, xshift = 48] (box-2-0-a) {D};
+      \node [box, right of = box-1-0-b, xshift = 48] (box-2-0-a) {$D$};
       \node [box, right of = box-2-0-a, xshift = 16] (box-2-0-b) {};
       % 2-1
-      \node [box, right of = box-1-1-b, xshift = 48] (box-2-1-a) {C};
+      \node [box, right of = box-1-1-b, xshift = 48] (box-2-1-a) {$C$};
       \node [box, right of = box-2-1-a, xshift = 16] (box-2-1-b) {};
 
       \draw [->] (0, 1) -- (box-0-0-a);
@@ -1252,5 +1255,168 @@ occupies\footnote{occupy$^*$: $verb$ \textit{occupy something} to fill or use a
 the address part of a word, the decrement part of which
 $points$ to the word containing the next term, while the last word has $NIL$ in
 its decrement.
+
+An expression that has a given subexpression occurring more than once can be
+represented in more than one way. Whether the list structure for the
+subexpression is or not repeated depends upon the history of the
+program. Whether or not a subexpression is repeated will make no difference in
+the results of a program as they appear outside the machine, although it will
+affect the time and storage requirements. For example, the S-expression $((A
+\cdot B) \cdot (A \cdot B))$ can be represented by either the list structure of
+Figure 3a or 3b.
+
+\begin{figure}[h]
+  \begin{subfigure}{0.49\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      \node [box] (box-0-0-a) {};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
+      \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {$A$};
+      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {$B$};
+      \node [box, right of = box-0-1-b, xshift = 48] (box-1-1-a) {$A$};
+      \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {$B$};
+
+      \draw [->] (0, 1) -- (box-0-0-a);
+      \draw [->] (box-0-0-a) -- (box-0-1-a);
+      \draw [->] (box-0-0-b) -- +(0.8, 0) -- +(0.8, -1.7) -- (box-1-1-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \begin{subfigure}{0.49\textwidth}
+    \center
+    \begin{tikzpicture}[node distance = 0]
+      \node [box] (box-0-0-a) {};
+      \node [box, right of = box-0-0-a, xshift = 16] (box-0-0-b) {};
+      \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {$A$};
+      \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {$B$};
+
+      \draw [->] (0, 1) -- (box-0-0-a);
+      \draw [->] (box-0-0-a) -- (box-0-1-a);
+      \draw [->] (box-0-0-b) -- +(0, -0.8) -- +(-1, -0.8) -- +(-1, -1.7) --
+      (box-0-1-a);
+    \end{tikzpicture}
+    \caption{}
+  \end{subfigure}
+  \caption{}
+\end{figure}
+
+The
+prohibition\footnote{prohibition: $noun$ 1. (formal) the act of stopping
+  something being done or used, especially by law. 2. \textit{prohibition
+    (against/on something)} (formal) a law or a rule that stop something to be
+  done or used.}
+against circular list structures is essentially a prohibition
+against an expression being a subexpression of itself. Such an expression could
+not exist on paper in a world with our
+topology\footnote{topology: $noun$ (technical) the way, the part of something
+  are arranged and related.}.
+Circular list structures would
+have some advantages in the machine, for example, for representing recursive
+functions, but difficulties in printing them, and in certain other operations,
+make it seem advisable not to use them for the present.
+
+The advantages of list structures for the storage of symbolic expressions are:
+\begin{enumerate}
+\item The size and even the number of expressions with which the program will
+  have to deal cannot be predicted in advance. Therefore, it is difficult to
+  arrange blocks of storage of fixed length to contain them.
+\item Registers can be put back on the free-storage list when they are no longer
+  needed. Even one register returned to the list is of value, but if expressions
+  are stored linearly, it is difficult to make use of blocks of registers of odd
+  sizes that may become available.
+\item An expression that occurs as a subexpression of several expressions need
+  be represented in storage only once.
+\end{enumerate}
+
+\paragraph{b.}\textit{Association Lists.}
+In the LISP programming system we put more in the association list of a symbol
+than is required by the mathematical system described in the previous
+sections. In fact, any information that we desire to may include: the $print
+\ name$, that is, the string of letters and digits which represents the symbol
+outside the machine; a
+numerical\footnote{numerical: $adj.$ relating to numbers; expressed in numbers.}
+value if the symbol represents a number;
+another S-expression if the symbol, in some way, serves as a name for it; or the
+location of a
+routine\footnote{routine$^*$: $noun$ the normal order and way in which you
+  regularly do things.}
+if the symbol represents a function for which there is a
+machine-language subroutine. All this implies that in the machine system there
+are more primitive entities than have been described in the sections on the
+mathematical system.
+
+For the present, we shall only describe how $print \ names$ are presented on
+association lists so that in reading or printing the program can
+establish\footnote{establish$^*$: $verb$ \textit{establish something} to start
+  or create an organization, a system, etc. that is meant to last for a long
+  time. $syn$ set up}
+a
+correspondence between information on punched cards,
+magnetic\footnote{magnetic: $adj.$ be having like a magnet. --- magnet: $noun$ a
+  piece of iron that attracts objects made of iron towards it, either naturally
+  or because of electric current that is passed through it. ------attract:
+  $verb$ if you are attracted by something, it interests you and makes you want
+  it; if you are attracted by somebody, you like or admire them.}
+tape or printed
+page and the list structure inside the machine. The association list of the
+symbol $DIFFERENTIATE$ has a segment of the form shown in Figure 4. Here $pname$
+is a symbol that indicates that the structure for the print name of the symbol
+whose association list this is hanging from the next word on the association
+list. In the second row of the figure we have a list of three words. The address
+part of each of these words points to a Word containing six 6-bit
+characters. The last word is filled out with a 6-bit combination that does not
+represent a character printable by the computer. (Recall that the IBM 704 has a
+36-bit word and that printable characters are each represented by 6-bits.) The
+presence\footnote{presence$^*$: $noun$ the fact of being in a particular
+  place. $opp$ absence}
+of the words with character information means that the association
+lists do not themselves represent S-expressions, and that only some of the
+functions for dealing with S-expressions make sense within an association list.
+
+\begin{figure}[h]
+  \center
+  \begin{tikzpicture}[node distance = 0]
+    % textarea-left
+    \node [textarea] (textarea-left) {$\cdots$};
+    % 0-0
+    \node [box, below of = textarea-left, xshift = 48] (box-0-0-a) {$pname$};
+    \node [box, right of = box-0-0-a, xshift = 28] (box-0-0-b) {};
+    % 1-0
+    \node [box, right of = box-0-0-b, xshift = 48] (box-1-0-a) {};
+    \node [box, right of = box-1-0-a, xshift = 16] (box-1-0-b) {};
+    % textarea-right
+    \node [textarea, right of = box-1-0-b, xshift = 48] (textarea-right) {$\cdots$};
+    % 0-1
+    \node [box, below of = box-0-0-a, yshift = -48] (box-0-1-a) {};
+    \node [box, right of = box-0-1-a, xshift = 16] (box-0-1-b) {};
+    % 1-1
+    \node [box, right of = box-0-1-b, xshift = 64] (box-1-1-a) {};
+    \node [box, right of = box-1-1-a, xshift = 16] (box-1-1-b) {};
+    % 2-1
+    \node [box, right of = box-1-1-b, xshift = 64] (box-2-1-a) {};
+    \node [box, right of = box-2-1-a, xshift = 16] (box-2-1-b) {};
+    % 0-2
+    \node [box, below of = box-0-1-a, yshift = -48] (box-0-2) {$DIFFER$};
+    % 1-2
+    \node [box, below of = box-1-1-a, yshift = -48] (box-1-2) {$ENTIAT$};
+    % 2-2
+    \node [box, below of = box-2-1-a, yshift = -48] (box-2-2) {$E \ ??????$};
+
+    \draw [->] (textarea-left) -- (box-0-0-a);
+    \draw [->] (box-0-0-b) -- (box-1-0-a);
+    \draw [->] (box-1-0-a) -- +(0, -0.8) -- +(-3.2, -0.8) -- +(-3.2, -1.7) --
+    (box-0-1-a);
+    \draw [->] (box-1-0-b) -- (textarea-right);
+    \draw [->] (box-0-1-a) -- +(0, -0.8) -- +(-1.2, -0.8) -- +(-1.2, -1.7) --
+    (box-0-2);
+    \draw [->] (box-0-1-b) -- (box-1-1-a);
+    \draw [->] (box-1-1-a) -- +(0, -0.8) -- +(-1.2, -0.8) -- +(-1.2, -1.7) --
+    (box-1-2);
+    \draw [->] (box-1-1-b) -- (box-2-1-a);
+    \draw [->] (box-2-1-a) -- +(0, -0.8) -- +(-1.2, -0.8) -- +(-1.2, -1.7) --
+    (box-2-2);
+  \end{tikzpicture}
+  \caption{}
+\end{figure}
 
 \end{document}
