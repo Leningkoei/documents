@@ -1419,4 +1419,77 @@ functions for dealing with S-expressions make sense within an association list.
   \caption{}
 \end{figure}
 
+\paragraph{c.}\textit{Free-storage List.}
+At any given time only a part of the memory
+reserved\footnote{reserve: $verb$ to ask for a seat, table, room, etc. to be
+  available for you or somebody else at a future time. $syn$ book}
+for list structures will
+actually be in use for storing S-expressions. The remaining registers (in our
+system the number, initially, is approximately 15,000) are arranged in a single
+list called the $free-storage list$. A certain register, FREE, in the program
+contains the location of the first register in this list. When a word is
+required to form some additional list structure, the first word on the
+$free-storage list$ is taken and the number in register FREE is changed to
+become the location of the second word on the free-storage list. No
+provision\footnote{provision: $noun$ the act of supplying somebody with
+  something that they need or want; something that is supplied.}
+need be made for the user to program the return of registers to the free-storage
+list.
+
+This return takes place automatically, approximately as follows (it is necessary
+to give a simplified description of this process in this report); There is a
+fixed set of base registers in the program which contains the locations of list
+structures that are accessible to the program. Of course, because list
+structures branch, an arbitrary number of registers may be involved. Each
+register that is accessible to the program is accessible because it can be
+reached from one or more of the base registers by a chain of $car$ and $cdr$
+operations. When the contents of a base register are changed, it may happen that
+the register to which the base register
+formerly\footnote{formerly$^*$: $adv.$ in earlier time. $syn$ previously}
+pointed cannot be reached by a
+$car - cdr$ chain from any base register. Such a register may be considered
+abandoned by the program because its contents can no longer be found by any
+possible program;
+hence\footnote{hence$^*$: $adv.$ (formal) for this reason.}
+its contents are no longer of interest, and so we would
+like to have it back on the free-storage list. This comes about in the following
+way.
+
+Nothing happens until the program runs out of the free-storage list. When a free
+register is wanted, and there is none left on the free-storage list, a
+reclamation\footnote{reclaim: $verb$ to get something back or to ask to have it
+  back after it has been lost, taken away, etc.}
+cycle starts.
+
+First, the program finds all registers accessible from the base registers and
+makes their signs negative. This is accomplished by starting from each of the
+base registers and changing the sign of every register that can be reached from
+it by a $car = cdr$ chain. If the program encounters a register in this process
+which already has a negative sign, it assumes that this register has already
+been reached.
+
+After all of the accessible registers have had their signs changed, the program
+goes through the area of memory reserved for the storage of list structures and
+puts all the registers whose signs were not changed in the previous step back on
+the free-storage list, and makes the signs of the accessible registers positive
+again.
+
+This process, because it is
+entirely\footnote{entirely$^*$: $adv.$ in every way possible; completely.}
+automatic, is more convenient for the
+programmer than a system in which he has to keep
+track\footnote{track$^*$: $noun$ a rough path or road, usually one that has not
+  been built but that has been made by people walking there.}
+of and erase unwanted
+lists. Its
+efficiency\footnote{efficiency: $noun$ the quality of doing something well with
+  no waste of time or money.}
+depends upon not coming close to
+exhausting\footnote{exhausting: $adj.$ making you feel very tired.}
+the available
+memory with accessible lists. This is because the reclamation process requires
+several seconds to execute, and therefore must result in the addition of at
+least several thousand registers to the free-storage list if the program is not
+to spend most of its time in reclamation.
+
 \end{document}
