@@ -619,7 +619,7 @@ that are definable in this way.
   We have
   $$ ff[x] = [atom[x] \to x; T \to ff[car[x]]] $$
   We now
-  trace\footnote{trace$^*$: $verb$ \textbf{trace somebody/something (to
+  trace\footnote{trace$^*$: $verb$ \textit{trace somebody/something (to
       something)} to find or discover somebody/something by looking carefully
     for them/it. $syn$ track down}
   in detail the steps in the evaluation of $ff[((A \cdot B) \cdot
@@ -979,7 +979,9 @@ follows.
 \item An atomic symbol is an allowed expression.
 \item If $e_1, e_2, \ldots, e_n$ are allowed expressions, $(PLUS, e_1, \ldots,
   e_n)$ and \\$(TIMES, e_1, \ldots, e_n)$ are also, and represent the sum and
-  product, respectively, of $e_1, \ldots, e_n$.
+  product,
+  respectively\footnote{respectively},
+  of $e_1, \ldots, e_n$.
 \end{enumerate}
 
 This is, essentially, the Polish notation for functions, except that the
@@ -1426,10 +1428,10 @@ reserved\footnote{reserve: $verb$ to ask for a seat, table, room, etc. to be
 for list structures will
 actually be in use for storing S-expressions. The remaining registers (in our
 system the number, initially, is approximately 15,000) are arranged in a single
-list called the $free-storage list$. A certain register, FREE, in the program
+list called the $free-storage \ list$. A certain register, FREE, in the program
 contains the location of the first register in this list. When a word is
 required to form some additional list structure, the first word on the
-$free-storage list$ is taken and the number in register FREE is changed to
+$free-storage \ list$ is taken and the number in register FREE is changed to
 become the location of the second word on the free-storage list. No
 provision\footnote{provision: $noun$ the act of supplying somebody with
   something that they need or want; something that is supplied.}
@@ -1485,11 +1487,75 @@ lists. Its
 efficiency\footnote{efficiency: $noun$ the quality of doing something well with
   no waste of time or money.}
 depends upon not coming close to
-exhausting\footnote{exhausting: $adj.$ making you feel very tired.}
+exhausting\footnote{exhaust: $noun$ wastes gases that come out of a vehicle, an
+  engine or a machine. $verb$ 1. to make somebody feel very tired. $syn$ wear
+  out 2. \textit{exhaust something} to use all of something so that there is
+  none left.}
 the available
 memory with accessible lists. This is because the reclamation process requires
 several seconds to execute, and therefore must result in the addition of at
 least several thousand registers to the free-storage list if the program is not
 to spend most of its time in reclamation.
+
+\paragraph{d.}\textit{Elementary S-functions in the Computer.}
+We shall now describe the computer representations of $atom$, $=$, $car$, $cdr$,
+and $cons$. An S-expression in communicated to the program that represents a
+function as the location of the word representing it, and the program give
+S-expression answers in the same form.
+
+$atom$. As stated above, a word representing an atomic symbol has a special
+constant in its address part: $atom$ is programmed as an open subroutine that
+tests this part. Unless the M-expression $atom[e]$ occurs as a condition in a
+conditional expression, the symbol $T$ or $F$ is generated as the result of the
+test. In case of a conditional expression, a conditional transfer is used and
+the symbol $T$ or $F$ is not generated.
+
+$eq$. The program for $eq[e;f]$ involves testing for the numerical equality of
+the locations of the words. This works because each atomic symbol has only one
+association list. As with $atom$, the result is either a conditional transfer or
+one of the symbols $T$ or $F$.
+
+$car$. Computing $car[x]$ involves getting the contents of the address part of
+register $x$. This is essentially accomplished by the single instruction CLA 0,
+i, where the argument is in index register, and the result appears in the
+address part of the accumulator. (We take the view that the places from which a
+function takes its arguments and into which it puts its results are
+prescribed\footnote{prescribe: $verb$ 1. (of a doctor) to tell somebody to take
+  a particular medicine or have a particular treatment; to write a PRESCRIPTION
+  for a particular medicine. 2. (of a person or an organization with authority)
+  to say what should be done or how something should be done. $syn$ stipulate}
+in the definition of the function, and it is the
+responsibility\footnote{responsibility$^*$: $noun$ a duty to deal with or take
+  care of somebody/something, so that you may be blamed if something goes
+  wrong. --- duty: $noun$ something that you feel you have to do because it is
+  your moral or legal responsibility. ------ moral: $adj.$ concerned with
+  principles of right and wrong behavior. $noun$ standards or principles of good
+  behavior, especially in matters of sexual relationships. --------- principle:
+  $noun$ a moral rule or a strong belief that influences your actions. ---
+  blame: $verb$ to think or say that somebody/something is responsible for
+  something bad.}
+of the
+programmer or the compiler to insert the required datamoving instructions to get
+the results of one calculation in position for the next.)(``car'' is a mnemonic
+for ``contents of the address part of register''.)
+
+$cdr$. $cdr$ is handled in the same way as $car$, except that the result appears
+in the decrement part of the accumulator. (``cdr'' stands for ``contents of the
+decrement part of register''.)
+
+$cons$. The value of $cons[x; y]$ must be the location of a register that has
+$x$ and $y$ in its address and decrement part, respectively. There may not be
+such a register in the computer and, even if there were, it would be
+time-consuming\footnote{consume: $verb$ \textit{consume something} to use
+  something, especially fuel, energy or time.}
+to find it. Actually, what we do is to take the first available
+register from the $free-storage \ list$, put $x$ and $y$ in the address and
+decrement parts, respectively, and make the value of the function the location
+of the register taken. (``cons'' is an abbreviation for ``construct''.)
+
+It is the subroutine for $cons$ that initiates the reclamation when the
+$free-storage \ list$ is exhausted. In the version of the system that is used at
+present $cons$ is represented by closed subroutine. In the compiled version,
+$cons$ is open.
 
 \end{document}
