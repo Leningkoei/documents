@@ -1558,4 +1558,49 @@ $free-storage \ list$ is exhausted. In the version of the system that is used at
 present $cons$ is represented by closed subroutine. In the compiled version,
 $cons$ is open.
 
+\paragraph{e.}\textit{Representation of S-function by Programs.}
+The
+compilation\footnote{compilation: $noun$ a collection of items, especially
+  pieces of music or writing, taken from different places and put together.}
+of functions that are compositions of $car$, $cdr$, and $cons$,
+either by hand or by a compiler program, is
+straightforward\footnote{straightforward: $adj.$ easy to do or understand; not
+  complicated. $syn$ easy}.
+Conditional
+expressions give no trouble except that they must be so compiled that only the
+$p$'s and $e$'s that are required are computed. However, problems arise in the
+compilation of recursive functions.
+
+In general (we shall discuss an exception), the routine for a recursive function
+uses itself as a subroutine. For example, the program for $subst[x; y; z]$ uses
+itself as a subroutine to evaluate the result of substituting into the
+subexpressions $car[z]$ and $cdr[z]$. While $subst[x; y; cdr[z]]$ is being
+evaluated, the result of the previous evaluation of $subst[x; y; cdr[z]]$ must
+be saved in a temporary storage register. However, $subst$ may need the same
+register for evaluating $subst[x; y; cdr[z]]$. This possible conflict is
+resolved by the SAVE and UNSAVE routines that use the $public \ push-down
+\ list$. The SAVE routine is entered at the beginning of the routine for the
+recursive function with a request to save a given set of
+consecutive\footnote{consecutive: $adj.$ following one after another in a series
+  with out interruption. --- interruption: $noun$ something that temporarily
+  stops an activity or a situation; a time when an activity is stopped.}
+registers. A block of registers called the $public \ push-down \ list$ is
+reserved for this purpose The SAVE routine has an index that tells it how many
+registers in the push-down list are already in use. It moves the contents of the
+registers which are to be saved to the first unused registers in the push-down
+list, advances the index of the list, and returns to the program from which
+control came. This program may then freely use these registers for temporary
+storage. Before the routine exits it use UNSAVE, which restores the contents of
+the temporary registers from the push-down list and moves back the index of this
+list. The result of these conventions is described, in programming
+terminology\footnote{terminology: $noun$ the set of technical words or
+  expressions used in a particular subject.},
+by saying that the recursive subroutine is
+transparent\footnote{transparent$^*$: $adj.$ (of glass, plastic, etc.) allowing
+  you to see through it. $opp$ opaque}
+to the temporary storage
+registers.
+
+\paragraph{f.}\textit{Status of the LISP Programming System (February 1960).}
+
 \end{document}
