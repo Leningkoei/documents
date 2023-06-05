@@ -476,9 +476,9 @@ $$ ) $$
 $$ ( $$
 and an infinite set of distinguishable atomic symbols. For atomic symbols, we
 shall use strings of capital Latin letters and digits with single
-imbedded\footnote{embed: verb. [usually passive] \textit{embed something (in
-    something)} to fix something firmly into a substance or solid
-  object. \textit{The bullet embedded itself in the wall.}}
+imbedded\footnote{embed: $verb$ \textit{embed something (in something)} to fix
+  something firmly into a substance or solid object. \textit{The bullet embedded
+    itself in the wall.}}
 blanks. Examples of atomic symbols are
 \begin{align*}
 &A   \\
@@ -1039,7 +1039,9 @@ basis\footnote{basis$^*$: $noun$ the reason why people take a particular
 of the system is a way of writing computer programs to evaluate
 S-functions. This will be described in the following sections.
 
-In addition to the facilities for describing S-functions, there are facilities
+In addition to the
+facilities\footnote{facility}
+for describing S-functions, there are facilities
 for using S-functions in programs written as sequences of statements along the
 lines of FORTRAN or ALGOL. These features will not be described in this
 article.
@@ -1602,5 +1604,48 @@ to the temporary storage
 registers.
 
 \paragraph{f.}\textit{Status of the LISP Programming System (February 1960).}
+A
+variant\footnote{variant: $noun$ \textit{variant (of/on something)} a change,
+  especially in the amount or level of something.}
+of the function apply described in section 5f has been translated into
+a program APPLY for the IBM 704. Since this routine can compute values of
+S-functions given their descriptions as S-expressions and their arguments, it
+serves as an interpreter for the LISP programming language which describes
+computation processes in this way.
+
+The program APPLY has been imbedded in the LISP programming system which has the
+following features:
+\begin{enumerate}
+\item The programmer may define any number of S-functions by
+  S-expressions. These functions may refer to each other or to certain
+  S-functions represented by machine language program.
+\item The values of defined functions may be computed.
+\item S-expressions may be read and printed (directly or via magnetic tape).
+\item Some error
+  diagnostic\footnote{diagnostic: $adj.$ (technical) connected with identifying
+    something, especially an illness. $noun$ 1. (computing) a program used for
+    identifying a computer fault. 2. a message on a computer screen giving
+    information about a fault. --- identify: $verb$ to recognize
+    somebody/something and be able to say who or what they are.}
+  and selective tracing facilities are included.
+\item The programmer and selected S-functions compiled into machine language
+  programs put into the core memory. Values of compiled functions are computed
+  about 60 times as fast as they would if interpreted. Compilation is fast
+  enough so that it is not necessary to punch compiled program for future use.
+\item A ``program feature'' allows programs containing assignment and \textbf{go
+  to} statements in the style of ALGOL.
+\item Computation with floating point numbers is possible in the system, but
+  this is inefficient.
+\item A programmer's
+  manual\footnote{manual: $adj.$ (of work, etc.) involving using the hands or
+    physical strength. $noun$ a book that tells you how to do or operate
+    something, especially one that comes with a machine, etc. when you buy it.}
+  is being prepared. The LISP programming system is
+  appropriate for computations where the data can conveniently be represented as
+  symbolic expressions allowing expressions of the same kind as
+  subexpressions. A version of the system for the IBM 709 is being prepared.
+\end{enumerate}
+
+\section{Another Formalism for Functions of Symbolic Expressions}
 
 \end{document}
