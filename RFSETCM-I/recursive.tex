@@ -1648,4 +1648,51 @@ following features:
 
 \section{Another Formalism for Functions of Symbolic Expressions}
 
+There are a number of ways of defining functions of symbolic expressions which
+are quite similar to the system we have adopted. Each of them involves three
+basic functions, conditional expressions, and recursive function definitions,
+but the class of expressions corresponding to S-expressions is different, and so
+are the precise definitions of the functions. We shall describe one of these
+variants called linear LISP.
+
+The L-expressions are defined as follows:
+\begin{enumerate}
+\item A finite list of characters is admitted.
+\item Any string of admitted characters in an L-expression. This includes the
+  null string denoted by $\Lambda$.
+\end{enumerate}
+
+There are three functions of strings:
+\begin{enumerate}
+\item $first[x]$ is the first character of the string $x$.
+
+  $first[\Lambda]$ is undefined. For example: $first[ABC] = A$.
+\item $rest[x]$ is the string of characters which remains when the first
+  character of the string is deleted.
+
+  $rest[\Lambda]$ is undefined. For example: $rest[ABC] = BC$.
+\item $combine[x; y]$ is the string formed by prefixing the character $x$ to the
+  string $y$. For example: $combine[A; BC] = ABC$.
+\end{enumerate}
+
+There are three predicates on strings:
+\begin{enumerate}
+\item $char[x]$, $x$ is a single character.
+\item $null[x]$, $x$ is a null string.
+\item $x = y$, defined for $x$ and $y$ characters.
+\end{enumerate}
+
+The advantage of linear LISP is that no characters are given special roles, as
+are parentheses, dots, and commas in LISP. This permits computations with all
+expressions that can be written linearly. The disadvantage of linear LISP is
+that the
+extraction\footnote{extraction: $noun$ the act or process of removing or
+  obtaining something from something else.}
+of subexpressions is a fairly involved, rather than an
+elementary, operation. It is not hard to write, in linear LISP, functions that
+correspond to the basic functions of LISP, so that, mathematically, linear LISP
+includes LISP. This turns out to be the most convenient way of programming, in
+linear LISP, the most complicated manipulations. However, if the functions are
+to be represented by computer routines, LISP is essentially faster.
+
 \end{document}
