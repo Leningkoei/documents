@@ -27,6 +27,14 @@
 \tikzstyle{textbox} = [rectangle, minimum height = 16, draw = black, text
   centered]
 
+\tikzstyle{pi} = [
+  rectangle, rounded corners,
+  minimum width = 16, minimum height = 16,
+  draw = black, text centered
+]
+
+\tikzstyle{none-line} = [-, draw = none]
+
 % end{declare}
 
 \begin{document}
@@ -984,10 +992,12 @@ follows.
   of $e_1, \ldots, e_n$.
 \end{enumerate}
 
-This is, essentially, the Polish notation for functions, except that the
+This is,
+essentially\footnote{essentially},
+the Polish notation for functions, except that the
 inclusion of parentheses and commas allows functions of variable numbers of
-arguments. An example of an allowed expression is $(TIMES, X, (PLUS, X,
-A),\\Y)$, the conventional algebraic notation for which is $X(X + A)Y$.
+arguments. An example of an allowed expression is $(TIMES, X, (PLUS, X,\\
+A), Y)$, the conventional algebraic notation for which is $X(X + A)Y$.
 
 Our differentiation formula, which gives the derivative of $y$ with respect to
 $x$, is
@@ -1694,5 +1704,116 @@ correspond to the basic functions of LISP, so that, mathematically, linear LISP
 includes LISP. This turns out to be the most convenient way of programming, in
 linear LISP, the most complicated manipulations. However, if the functions are
 to be represented by computer routines, LISP is essentially faster.
+
+\section{Flowcharts and Recursion}
+
+Since both the usual form of computer program and recursive function definitions
+are universal computationally, it is interesting to display the relation between
+them. The translation of recursive symbolic functions into computer programs was
+the subject of the rest of this report. In this section we show how to go the
+other way, at list in principle.
+
+The state to the machine at any time during a computation is given by the values
+of a number of variables. Let these variables be combined into a vector
+$\xi$. Consider a program block with one
+entrance\footnote{entrance$^*$: $noun$ \textit{entrance (to something)} a door,
+  gate, passage, etc. used for entering a room, building or place.}
+and one exit. It defines and
+is essentially defined by a certain function $f$ that takes one machine
+configuration into another, that is, $f$ has the form $\xi' = f(\xi)$. Let us
+call $f$ the associated function of the program block. Now let a number of such
+blocks be combined into a program by decision element $\pi$ that decide after
+each block is completed which block will be entered next. Nevertheless, let the
+whole program still have one entrance and one exit.
+
+\begin{figure}[h]
+  \center
+  \begin{tikzpicture}[node distance = 0]
+    \node [pi] (pi-1) {$\pi_1$};
+    \node [box, below of = pi-1, yshift = -32, xshift = -32] (f-1) {$f_1$};
+    \node [box, below of = pi-1, yshift = -32, xshift = 32] (f-2) {$f_2$};
+    \node [pi, below of = pi-1, yshift = -64] (pi-2) {$\pi_2$};
+    \node [box, below of = pi-2, yshift = -32] (f-3) {$f_3$};
+    \node [pi, below of = f-3, yshift = -32] (pi-3) {$\pi_3$};
+    \node [box, below of = pi-3, yshift = -32] (f-4) {$f_4$};
+
+    \draw [->] (0, 2) -- (pi-1);
+    \draw [->] (pi-1) -- (f-1);
+    \draw [->] (pi-1) -- (f-2);
+    \draw [->] (f-1) -- (pi-2);
+    \draw [->] (f-2) -- node[anchor = south east] {S} (pi-2);
+    \draw [->] (pi-2) -- (f-3);
+    \draw [->] (pi-2) -- +(-2, 0) -- +(-2, 2.25) -- (pi-1);
+    \draw [->] (f-3) -- (pi-3);
+    \draw [->] (pi-3) -- (f-4);
+    \draw [->] (pi-3) -- +(2, 0) -- +(2, 4.5) -- (pi-1);
+    \draw [->] (pi-3) -- +(-1, 0) -- node[anchor = east] {T} +(-1, 1.125) -- (f-3);
+    \draw [->] (f-4) -- +(0, -2);
+    \draw [-] (3, 1) -- (3, -6.63) -- (-3, -6.63) -- (-3, 1) -- (3, 1);
+  \end{tikzpicture}
+  \caption{}
+\end{figure}
+
+We give as an example the flowchart of figure 5. Let us describe the function
+$r[\xi]$ that gives the
+transformation\footnote{transformation: $noun$ a complete change in
+  somebody/something}.
+of the vector $\xi$ between entrance and
+exit of the whole block. We shall define it in conjunction with the functions
+$s(\xi)$, and $t{\xi}$, which give the transformations that $\xi$ undergoes
+between the points S and T, respectively, and the exit. We have
+\begin{align*}
+  r[\xi] &= [\pi_11[\xi] \to S[f1[\xi]]; T \to S[f_2[\xi]]] \\
+  S[\xi] &= [\pi_21[\xi] \to r[\xi]; T \to t[f_3[\xi]]]     \\
+  t[\xi] &= [\pi_31[\xi] \to f_4[\xi]; \pi_32[\xi] \to r[\xi]; T \to
+    t[f_3[\xi]]]
+\end{align*}
+
+Given a flowchart with a single entrance and a single exit, it is easy to write
+down the recursive function that gives the transformation of the state vector
+from entrance to exit in terms of the corresponding functions for the
+computation blocks and the predicates of the branch. In general, we proceed as
+follows.
+
+In figure 6, let $\beta$ be an n-way branch point, and let $f_1, \ldots, f_n$ be
+the computations leading to branch points $\beta_1, \beta_2, \ldots,
+\beta_n$. Let $\phi$ be the function that transforms $\xi$ between $beta$ and
+the exit of the chart, and let $\phi_1, \ldots, \phi_n$ be the corresponding
+functions for $\beta_1, \ldots, \beta_n$. We then write
+$$ \phi[\xi] = [p_1[\xi] \to \phi_1[f_1[\xi]]; \ldots; p_n[\xi] \to
+  \phi_n[\xi]] $$
+
+\begin{figure}[h]
+  \center
+  \begin{tikzpicture}[node distance = 0]
+    \draw [-] (0, 0) -- (-1, -1) -- (0, -2) -- (1, -1) -- (0, 0);
+    \node [box, xshift = -64, yshift = -96] (f-1) {$f_1$};
+    \node [box, xshift = 0, yshift = -96] (f-2) {$f_2$};
+    \node [box, xshift = 64, yshift = -96] (f-n) {$f_n$};
+    \node [pi, below of = f-1, yshift = -32] (pi-1) {};
+    \node [pi, below of = f-2, yshift = -32] (pi-2) {};
+    \node [pi, below of = f-n, yshift = -32] (pi-n) {};
+    \draw [->] (-0.5, -1.5) -- (f-1);
+    \draw [->] (0, -2) -- (f-2);
+    \draw [->] (0.5, -1.5) -- (f-n);
+    \draw [->] (f-1) -- (pi-1);
+    \draw [->] (f-2) -- (pi-2);
+    \draw [->] (f-n) -- (pi-n);
+    \draw node[left of = f-n, xshift = -36, yshift = 16] {$\cdots$};
+    \draw node[left of = f-n, xshift = -32] {$\cdots$};
+    \draw node[left of = pi-n, xshift = -32] {$\cdots$};
+    \draw node[xshift = -18, yshift = -12] {$\beta$};
+    \draw node[xshift = 18, yshift = -12] {$\phi$};
+    \draw node[above of = pi-1, xshift = -12, yshift = 12] {$\phi_1$};
+    \draw node[below of = pi-1, xshift = -12, yshift = -12] {$\beta_1$};
+    \draw node[above of = pi-2, xshift = -12, yshift = 12] {$\phi_2$};
+    \draw node[below of = pi-2, xshift = -12, yshift = -12] {$\beta_2$};
+    \draw node[above of = pi-n, xshift = -12, yshift = 12] {$\phi_n$};
+    \draw node[below of = pi-n, xshift = -12, yshift = -12] {$\beta_n$};
+  \end{tikzpicture}
+  \caption{}
+\end{figure}
+
+\section {Acknowledgments}
 
 \end{document}
