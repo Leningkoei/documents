@@ -1,7 +1,13 @@
 *~
+
 *.aux
 *.dvi
 *.log
 *.pdf
 *.toc
 *.out
+
+*.bbl
+*.blg
+
+test/*
