@@ -1,5 +1,6 @@
 \documentclass[11pt, a4paper]{article}
 
+\usepackage{natbib}
 \usepackage{type1cm}
 \usepackage{amsfonts, amssymb, amsmath}
 \usepackage{enumerate} % import for the form like line 643
@@ -1815,5 +1816,28 @@ $$ \phi[\xi] = [p_1[\xi] \to \phi_1[f_1[\xi]]; \ldots; p_n[\xi] \to
 \end{figure}
 
 \section {Acknowledgments}
+The inadequacy of the $\lambda$ for naming recursive functions was noticed by
+N.Rochester, and he discovered an alternative to the solution involving $label$
+which has been used here. The form of subroutine for $cons$ which permits its
+composition with other functions was invented, in connection with another
+programming system, by C.Gerberick and H.L.Gelernter, of IBM Corporation. The
+LISP programming system was developed by a group including R.Brayton, D.Edwards,
+P.Fox, L.Hodes, D.Luckham, K.Maling, J.McCarthy, D.Park, S.Russell.
+
+The group was supported by the M.I.T. Computation Center, and by the
+M.I.T. Research Laboratory of Electronics (which is supported in part by the
+U.S. Army (Signal Corps), the U.S. Air Force (Office of Scientific Research, Air
+Research and Development Command), and the U.S.Navy (Office of Naval
+Research)). The author also wishes to acknowledge the personal financial support
+of the Alfred P.Sloan Foundation.
+
+% ~\cite{McCarthy1958}
+% ~\cite{Newell1957}
+% ~\cite{Church1941}
+% ~\cite{FORTRAN1956}
+% ~\cite{Perlis1958}
+
+\bibliographystyle{unsrt}
+\bibliography{references}
 
 \end{document}
